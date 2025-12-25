@@ -1,4 +1,3 @@
-import React from "react";
 
 const images = [
   "pictures/gators/gator0001.webp"
@@ -10,8 +9,6 @@ export default function DailyGator() {
     (today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) /
       86400000
   );
-
-  const index = dayOfYear % images.length;
 
   return (
     <div style={{ textAlign: "center", width: "100%" }}>
