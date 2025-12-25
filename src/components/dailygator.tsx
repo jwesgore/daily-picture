@@ -4,12 +4,6 @@ const images = [
 ];
 
 export default function DailyGator() {
-  const today = new Date();
-  const dayOfYear = Math.floor(
-    (today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) /
-      86400000
-  );
-
   return (
     <div style={{ textAlign: "center", width: "100%" }}>
       <h1>Today's Gator</h1>
