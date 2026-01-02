@@ -23,7 +23,7 @@ const NavBar: React.FC = () => {
 
       <ul className={`navbar__links ${open ? 'open' : ''}`}>
         <li><a href="/">Home</a></li>
-        <li><a href="/gallery">Meet the Teams</a></li>
+        <li><a href="/teams">Meet the Teams</a></li>
         <li><a href="/scoreboard">Scoreboard</a></li>
         <li><a href="/about">About</a></li>
       </ul>

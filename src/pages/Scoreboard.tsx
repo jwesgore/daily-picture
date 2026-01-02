@@ -1,0 +1,1 @@
+export default function Scoreboard(){ return <main><h1>Scoreboard</h1></main> }
