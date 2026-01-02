@@ -1,8 +1,13 @@
-import DailyGator from "./components/dailygator";
+import React from 'react'
+import NavBar from './components/NavBar'
 
 function App() {
-  return <DailyGator />;
+  return (
+    <>
+      <NavBar />
+      {/* rest of your app */}
+    </>
+  )
 }
 
-export default App;
-
+export default App

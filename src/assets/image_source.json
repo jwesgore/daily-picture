@@ -1,0 +1,114 @@
+{
+    "team-creature": [
+        {
+            "url": "https://www.si.edu/object/fennec-fox:nzp_NZP-20150503-5469CN"
+        },
+        {
+            "url": "https://www.si.edu/object/northern-tree-shrew:nzp_NZP-20071128-040MM"
+        },
+        {
+            "url": "https://www.si.edu/object/sloth-bear:nzp_NZP-20060531-175JC"
+        },
+        {
+            "url": "https://www.si.edu/object/prehensile-tailed-porcupine:nzp_NZP-20100615-034MM"
+        }
+    ],
+    "team-feathers": [
+        {
+            "url": "https://www.si.edu/object/brown-kiwi:nzp_NZP-20100611-087MM"
+        },
+        {
+            "url": "https://www.si.edu/object/north-american-wood-duck:nzp_NZP-20181031-148SB"
+        },
+        {
+            "url": "https://www.si.edu/object/roseate-spoonbill:nzp_NZP-20160226-359CTW"
+        },
+        {
+            "url": "https://www.si.edu/object/burrowing-owl:nzp_NZP-20160219-069CTW"
+        }
+    ],
+    "team-silly": [
+        {
+            "url" : "https://www.si.edu/object/giant-panda:nzp_NZP-20091222-189MM-000002"
+        },
+        {
+            "url": "https://www.si.edu/object/lesser-kudu:nzp_NZP-20171103-007GM"
+        },
+        {
+            "url": "https://www.si.edu/object/komodo-dragon:nzp_NZP-20110518-144MM"
+        },
+        {
+            "url": "https://www.si.edu/object/clouded-leopard:nzp_NZP-20100407-24MM"
+        }
+    ],
+    "team-scales": [
+        {
+            "url": "https://www.si.edu/object/cuban-crocodile:nzp_NZP-20160216-018CTW"
+        },
+        {
+            "url": "https://www.si.edu/object/caiman-lizard:nzp_NZP-20130313-038CPM-000001"
+        },
+        {
+            "url": "https://www.si.edu/object/rhinoceros-snake:nzp_NZP-20101116-076MM"
+        },
+        {
+            "url": "https://www.si.edu/object/mellers-chameleon:nzp_NZP-20170803-001JZ"
+        }
+    ],
+    "team-smalls": [
+        {
+            "url": "https://www.si.edu/object/screaming-hairy-armadillo:nzp_NZP-20141121-011CPM"
+        },
+        {
+            "url": "https://www.si.edu/object/short-eared-elephant-shrew:nzp_NZP-20160219-054CTW"
+        },
+        {
+            "url": "https://www.si.edu/object/norway-rat:nzp_NZP-20140217-001ES"
+        },
+        {
+            "url": "https://www.si.edu/object/patagonian-mara:nzp_NZP-20170809-3080RP"
+        }
+    ],
+    "team-diva": [
+        {
+            "url": "https://www.si.edu/object/asian-elephant:nzp_NZP-20180628-596SB"
+        },
+        {
+            "url": "https://www.si.edu/object/holstein-cow:nzp_NZP-20180514-428RP"
+        },        
+        {
+            "url": "https://www.si.edu/object/peruvian-guinea-pig-masi:nzp_NZP-20191215_005CC"
+        },        
+        {
+            "url": "https://www.si.edu/object/american-flamingo:nzp_NZP-20110624-399MM-000002"
+        }
+    ],
+    "team-aqua": [
+        {
+            "url": "https://www.si.edu/object/california-sea-lion:nzp_NZP-20090916-095MM"
+        },        
+        {
+            "url": "https://www.si.edu/object/channel-catfish:nzp_NZP-20160518-1340NM"
+        },        
+        {
+            "url": "https://www.si.edu/object/silver-arowana:nzp_NZP-20150121-8618AW-000001"
+        },        
+        {
+            "url": "https://www.si.edu/object/freshwater-stingray:nzp_NZP-20130614-04AW"
+        }
+    ],
+    "team-primate": [
+        {
+            "url": "https://www.si.edu/object/red-fronted-lemur:nzp_NZP-20181114-3926SB"
+        },        
+        {
+            "url": "https://www.si.edu/object/orangutan:nzp_NZP-20060410-064JC-000001"
+        },        
+        {
+            "url": "https://www.si.edu/object/golden-lion-tamarin:nzp_NZP-20180807-159SB"
+        },        
+        {
+            "url": "https://www.si.edu/object/lowland-gorilla:nzp_NZP-20020429-7740JC"
+        }
+    ]
+}
