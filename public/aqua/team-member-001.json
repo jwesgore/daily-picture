@@ -1,0 +1,12 @@
+{
+    "teamName": "Team Aqua",
+    "teamId": "aqua",
+    
+    "name": "Pancake",
+    "bio": "",
+    "species": "Freshwater Stingray",
+
+    "photo": "/aqua/team-aqua-001.jpg",
+    "photoThumb": "/aqua/team-aqua-001-thumb.jpg",
+    "photoCredit": "https://www.si.edu/object/freshwater-stingray:nzp_NZP-20130614-04AW"
+}

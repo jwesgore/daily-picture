@@ -1,0 +1,12 @@
+{
+    "team": "Team Creature",
+    "teamId": "creature",
+
+    "name": "Poppy",
+    "bio": "",
+    "species": "Prehensile-tailed Porcupine",
+
+    "photo": "/creature/team-creature-004.jpg",
+    "photoThumb": "/creature/team-creature-004-thumb.jpg",
+    "photoCredit": "https://www.si.edu/object/prehensile-tailed-porcupine:nzp_NZP-20100615-034MM"
+}

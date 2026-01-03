@@ -27,20 +27,23 @@
             "url": "https://www.si.edu/object/burrowing-owl:nzp_NZP-20160219-069CTW"
         }
     ],
-    "team-silly": [
-        {
-            "url" : "https://www.si.edu/object/giant-panda:nzp_NZP-20091222-189MM-000002"
-        },
-        {
-            "url": "https://www.si.edu/object/lesser-kudu:nzp_NZP-20171103-007GM"
-        },
-        {
-            "url": "https://www.si.edu/object/komodo-dragon:nzp_NZP-20110518-144MM"
-        },
-        {
-            "url": "https://www.si.edu/object/clouded-leopard:nzp_NZP-20100407-24MM"
-        }
-    ],
+    "team-silly": {
+        "background": "https://unsplash.com/photos/selective-focus-photography-of-multicolored-confetti-lot-Xaanw0s0pMk",
+        "teamMembers": [
+            {
+                "url" : "https://www.si.edu/object/giant-panda:nzp_NZP-20091222-189MM-000002"
+            },
+            {
+                "url": "https://www.si.edu/object/lesser-kudu:nzp_NZP-20171103-007GM"
+            },
+            {
+                "url": "https://www.si.edu/object/komodo-dragon:nzp_NZP-20110518-144MM"
+            },
+            {
+                "url": "https://www.si.edu/object/clouded-leopard:nzp_NZP-20100407-24MM"
+            }
+        ]
+    },
     "team-scales": [
         {
             "url": "https://www.si.edu/object/cuban-crocodile:nzp_NZP-20160216-018CTW"
@@ -83,21 +86,23 @@
             "url": "https://www.si.edu/object/american-flamingo:nzp_NZP-20110624-399MM-000002"
         }
     ],
-    "team-aqua": [
-        "background" : "https://unsplash.com/photos/blue-ocean-UYW6FZLlnL8"
-        {
-            "url": "https://www.si.edu/object/california-sea-lion:nzp_NZP-20090916-095MM"
-        },        
-        {
-            "url": "https://www.si.edu/object/channel-catfish:nzp_NZP-20160518-1340NM"
-        },        
-        {
-            "url": "https://www.si.edu/object/silver-arowana:nzp_NZP-20150121-8618AW-000001"
-        },        
-        {
-            "url": "https://www.si.edu/object/freshwater-stingray:nzp_NZP-20130614-04AW"
-        }
-    ],
+    "team-aqua": {
+        "background" : "https://unsplash.com/photos/blue-ocean-UYW6FZLlnL8",
+        "teamMembers": [
+            {
+                "url": "https://www.si.edu/object/california-sea-lion:nzp_NZP-20090916-095MM"
+            },        
+            {
+                "url": "https://www.si.edu/object/channel-catfish:nzp_NZP-20160518-1340NM"
+            },        
+            {
+                "url": "https://www.si.edu/object/silver-arowana:nzp_NZP-20150121-8618AW-000001"
+            },        
+            {
+                "url": "https://www.si.edu/object/freshwater-stingray:nzp_NZP-20130614-04AW"
+            }
+        ]
+    },
     "team-primate": [
         {
             "url": "https://www.si.edu/object/red-fronted-lemur:nzp_NZP-20181114-3926SB"

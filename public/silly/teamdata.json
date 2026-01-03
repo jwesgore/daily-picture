@@ -1,0 +1,16 @@
+{
+    "background": "/silly/background.jpg",
+    "backgroundCredit": "https://unsplash.com/photos/selective-focus-photography-of-multicolored-confetti-lot-Xaanw0s0pMk",
+
+    "teamName": "Team Silly",
+    "teamId": "silly",
+
+    "bio": "This group of silly and fun animals is ready to make a splash!",
+
+    "teamMembers": [
+        "/silly/team-member-001.json",
+        "/silly/team-member-002.json",
+        "/silly/team-member-003.json",
+        "/silly/team-member-004.json"
+    ]
+}

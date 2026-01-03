@@ -1,0 +1,12 @@
+{
+    "team": "Team Silly",
+    "teamId": "silly",
+
+    "name": "Poppy",
+    "bio": "",
+    "species": "Komodo Dragon",
+
+    "photo": "/silly/team-silly-004.jpg",
+    "photoThumb": "/silly/team-silly-004-thumb.jpg",
+    "photoCredit": "https://www.si.edu/object/komodo-dragon:nzp_NZP-20110518-144MM"
+}

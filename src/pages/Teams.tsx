@@ -6,24 +6,10 @@ export default function Teams() {
     <main>
       <div className={styles.teamsGrid}>
         <TeamQuickView
-          backgroundImage="/images/aqua/background.jpg"
-          teamMembers={[
-              "/images/aqua/team-aqua-001-thumb.jpg",
-              "/images/aqua/team-aqua-002-thumb.jpg",
-              "/images/aqua/team-aqua-003-thumb.jpg",
-              "/images/aqua/team-aqua-004-thumb.jpg",
-          ]}
-          text="Team Aqua"
+          teamData="/aqua/teamdata.json"
         />
         <TeamQuickView
-          backgroundImage=""
-          teamMembers={[
-              "/images/creature/team-creature-001-thumb.jpg",
-              "/images/creature/team-creature-002-thumb.jpg",
-              "/images/creature/team-creature-003-thumb.jpg",
-              "/images/creature/team-creature-004-thumb.jpg",
-          ]}
-          text="Team Creature"
+          teamData="/creature/teamdata.json"
         />
         <TeamQuickView
           backgroundImage=""
@@ -66,21 +52,7 @@ export default function Teams() {
           text="Team Scales"
         />
         <TeamQuickView
-          backgroundImage=""
-          teamMembers={[
-              "/images/silly/team-silly-001-thumb.jpg",
-              "/images/silly/team-silly-002-thumb.jpg",
-              "/images/silly/team-silly-003-thumb.jpg",
-              "/images/silly/team-silly-004-thumb.jpg",
-          ]}
-          text="Team Silly"
-          teamLink="/teams/silly"
-          teamMemberLinks={[
-            "/teams/silly/001", 
-            "/teams/silly/002", 
-            "/teams/silly/003", 
-            "/teams/silly/004"
-          ]}
+          teamData="/silly/teamdata.json"
         />
         <TeamQuickView
           backgroundImage=""

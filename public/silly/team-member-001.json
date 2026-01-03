@@ -1,0 +1,12 @@
+{
+    "teamName": "Team Silly",
+    "teamId": "silly",
+
+    "name": "Ralph",
+    "bio": "",
+    "species": "Clouded Leopard",
+
+    "photo": "/silly/team-silly-001.jpg",
+    "photoThumb": "/silly/team-silly-001-thumb.jpg",
+    "photoCredit": "https://www.si.edu/object/clouded-leopard:nzp_NZP-20100407-24MM"
+}

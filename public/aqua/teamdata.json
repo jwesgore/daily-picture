@@ -1,0 +1,16 @@
+{
+    "background": "/aqua/background.jpg",
+    "backgroundCredit": "https://unsplash.com/photos/blue-ocean-UYW6FZLlnL8",
+
+    "teamName": "Team Aqua",
+    "teamId": "aqua",
+
+    "bio": "This group of wet and wild aquatic animals is ready to make a splash!",
+
+    "teamMembers": [
+        "/aqua/team-member-001.json",
+        "/aqua/team-member-002.json",
+        "/aqua/team-member-003.json",
+        "/aqua/team-member-004.json"
+    ]
+}

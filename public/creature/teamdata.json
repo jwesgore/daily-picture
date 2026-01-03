@@ -1,0 +1,16 @@
+{
+    "background": "/creature/background.jpg",
+    "backgroundCredit": "https://unsplash.com/photos/silhouette-of-trees-during-red-moon-2Ni0lCRF9bw",
+
+    "teamName": "Team Creature",
+    "teamId": "creature",
+
+    "bio": "This group of wet and wild aquatic animals is ready to make a splash!",
+
+    "teamMembers": [
+        "/creature/team-member-001.json",
+        "/creature/team-member-002.json",
+        "/creature/team-member-003.json",
+        "/creature/team-member-004.json"
+    ]
+}

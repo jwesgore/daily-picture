@@ -1,0 +1,12 @@
+{
+    "team": "Team Aqua",
+    "teamId": "aqua",
+    
+    "name": "George",
+    "bio": "",
+    "species": "Channel Catfish",
+
+    "photo": "/aqua/team-aqua-003.jpg",
+    "photoThumb": "/aqua/team-aqua-003-thumb.jpg",
+    "photoCredit": "https://www.si.edu/object/channel-catfish:nzp_NZP-20160518-1340NM"
+}
