@@ -1,0 +1,18 @@
+.teamsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: start;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 2rem;
+  min-width: 0;
+}
+
+@media (min-width: 1000px) {
+  .teamsGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding: 2rem;
+  }
+}
