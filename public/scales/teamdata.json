@@ -1,0 +1,15 @@
+{
+    "background": "/scales/background.jpg",
+    "backgroundCredit": "https://unsplash.com/photos/a-lot-of-stars-that-are-in-the-air-EnrXdeq4vJ8",
+
+    "teamName": "Team Scales",
+    "teamId": "scales",
+    "bio": "This group of wet and wild aquatic animals is ready to make a splash!",
+
+    "teamMembers": [
+        "/scales/team-member-001.json",
+        "/scales/team-member-002.json",
+        "/scales/team-member-003.json",
+        "/scales/team-member-004.json"
+    ]
+}

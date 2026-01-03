@@ -1,0 +1,12 @@
+{
+    "team": "Team Smalls",
+    "teamId": "smalls",
+
+    "name": "Poppy",
+    "bio": "",
+    "species": "American Flamingo",
+
+    "photo": "/smalls/team-smalls-004.jpg",
+    "photoThumb": "/smalls/team-smalls-004-thumb.jpg",
+    "photoCredit": "https://www.si.edu/object/american-flamingo:nzp_NZP-20110624-399MM-000002"
+}

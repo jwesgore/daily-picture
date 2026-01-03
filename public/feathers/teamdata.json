@@ -1,0 +1,16 @@
+{
+    "background": "/feathers/background.jpg",
+    "backgroundCredit": "https://unsplash.com/photos/a-lot-of-stars-that-are-in-the-air-EnrXdeq4vJ8",
+
+    "teamName": "Team Feathers",
+    "teamId": "feathers",
+
+    "bio": "This group of wet and wild aquatic animals is ready to make a splash!",
+
+    "teamMembers": [
+        "/feathers/team-member-001.json",
+        "/feathers/team-member-002.json",
+        "/feathers/team-member-003.json",
+        "/feathers/team-member-004.json"
+    ]
+}

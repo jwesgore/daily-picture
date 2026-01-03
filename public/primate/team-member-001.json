@@ -1,0 +1,12 @@
+{
+    "teamName": "Team Primate",
+    "teamId": "primate",
+
+    "name": "Ralph",
+    "bio": "",
+    "species": "Holstein Cow",
+
+    "photo": "/primate/team-primate-001.jpg",
+    "photoThumb": "/primate/team-primate-001-thumb.jpg",
+    "photoCredit": "https://www.si.edu/object/holstein-cow:nzp_NZP-20180514-428RP"
+}

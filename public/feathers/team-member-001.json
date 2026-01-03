@@ -1,0 +1,12 @@
+{
+    "teamName": "Team Feathers",
+    "teamId": "feathers",
+
+    "name": "Ralph",
+    "bio": "",
+    "species": "Holstein Cow",
+
+    "photo": "/feathers/team-feathers-001.jpg",
+    "photoThumb": "/feathers/team-feathers-001-thumb.jpg",
+    "photoCredit": "https://www.si.edu/object/holstein-cow:nzp_NZP-20180514-428RP"
+}

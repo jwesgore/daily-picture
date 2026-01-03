@@ -15,54 +15,19 @@ export default function Teams() {
           teamData="/diva/teamdata.json"
         />
         <TeamQuickView
-          backgroundImage=""
-          teamMembers={[
-              "/images/feathers/team-feathers-001-thumb.jpg",
-              "/images/feathers/team-feathers-002-thumb.jpg",
-              "/images/feathers/team-feathers-003-thumb.jpg",
-              "/images/feathers/team-feathers-004-thumb.jpg",
-          ]}
-          text="Team Feathers"
+          teamData="/feathers/teamdata.json"
         />
         <TeamQuickView
-          backgroundImage=""
-          teamMembers={[
-              "/images/primate/team-primate-001-thumb.jpg",
-              "/images/primate/team-primate-002-thumb.jpg",
-              "/images/primate/team-primate-003-thumb.jpg",
-              "/images/primate/team-primate-004-thumb.jpg",
-          ]}
-          text="Team Primate"
+          teamData="/primate/teamdata.json"
         />
         <TeamQuickView
-          backgroundImage=""
-          teamMembers={[
-              "/images/scales/team-scales-001-thumb.jpg",
-              "/images/scales/team-scales-002-thumb.jpg",
-              "/images/scales/team-scales-003-thumb.jpg",
-              "/images/scales/team-scales-004-thumb.jpg",
-          ]}
-          text="Team Scales"
+          teamData="/scales/teamdata.json"
         />
         <TeamQuickView
           teamData="/silly/teamdata.json"
         />
         <TeamQuickView
-          backgroundImage=""
-          teamMembers={[
-              "/images/smalls/team-smalls-001-thumb.jpg",
-              "/images/smalls/team-smalls-002-thumb.jpg",
-              "/images/smalls/team-smalls-003-thumb.jpg",
-              "/images/smalls/team-smalls-004-thumb.jpg",
-          ]}
-          text="Team Smalls"
-          teamLink="/teams/smalls"
-          teamMemberLinks={[
-            "/teams/smalls/001", 
-            "/teams/smalls/002", 
-            "/teams/smalls/003", 
-            "/teams/smalls/004"
-          ]}
+          teamData="/smalls/teamdata.json"
         />
       </div>
     </main>
