@@ -12,14 +12,7 @@ export default function Teams() {
           teamData="/creature/teamdata.json"
         />
         <TeamQuickView
-          backgroundImage=""
-          teamMembers={[
-              "/images/diva/team-diva-001-thumb.jpg",
-              "/images/diva/team-diva-002-thumb.jpg",
-              "/images/diva/team-diva-003-thumb.jpg",
-              "/images/diva/team-diva-004-thumb.jpg",
-          ]}
-          text="Team Diva"
+          teamData="/diva/teamdata.json"
         />
         <TeamQuickView
           backgroundImage=""

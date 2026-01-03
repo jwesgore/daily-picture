@@ -1,0 +1,16 @@
+{
+    "background": "/diva/background.jpg",
+    "backgroundCredit": "https://unsplash.com/photos/a-lot-of-stars-that-are-in-the-air-EnrXdeq4vJ8",
+
+    "teamName": "Team Diva",
+    "teamId": "diva",
+
+    "bio": "This group of wet and wild aquatic animals is ready to make a splash!",
+
+    "teamMembers": [
+        "/diva/team-member-001.json",
+        "/diva/team-member-002.json",
+        "/diva/team-member-003.json",
+        "/diva/team-member-004.json"
+    ]
+}
