@@ -2,15 +2,31 @@
     "background": "/diva/background_downscaled.jpg",
     "backgroundCredit": "https://unsplash.com/photos/a-lot-of-stars-that-are-in-the-air-EnrXdeq4vJ8",
 
-    "teamName": "Team Diva",
-    "teamId": "diva",
+    "teamName": "diva",
+    "teamId": "3",
 
     "bio": "This group of wet and wild aquatic animals is ready to make a splash!",
 
-    "teamMembers": [
-        "/diva/team-member-001.json",
-        "/diva/team-member-002.json",
-        "/diva/team-member-003.json",
-        "/diva/team-member-004.json"
-    ]
+    "teamMembers": {
+        "9": {
+            "photo": "/diva/team-diva-001.jpg",
+            "photoThumb": "/diva/team-diva-001-thumb.jpg",
+            "photoCredit": "https://www.si.edu/object/holstein-cow:nzp_NZP-20180514-428RP"
+        },
+        "10": {
+            "photo": "/diva/team-diva-002.jpg",
+            "photoThumb": "/diva/team-diva-002-thumb.jpg",
+            "photoCredit": "https://www.si.edu/object/peruvian-guinea-pig-masi:nzp_NZP-20191215_005CC"
+        },
+        "11": {
+            "photo": "/diva/team-diva-003.jpg",
+            "photoThumb": "/diva/team-diva-003-thumb.jpg",
+            "photoCredit": "https://www.si.edu/object/asian-elephant:nzp_NZP-20180628-596SB"
+        },
+        "12": {
+            "photo": "/diva/team-diva-004.jpg",
+            "photoThumb": "/diva/team-diva-004-thumb.jpg",
+            "photoCredit": "https://www.si.edu/object/american-flamingo:nzp_NZP-20110624-399MM-000002"
+        }
+    }
 }

@@ -1,15 +1,31 @@
 {
-    "background": "/scales/background_downscaled.jpg",
-    "backgroundCredit": "https://unsplash.com/photos/black-and-blue-feather-CIYt1FnKFo8",
+  "background": "/scales/background_downscaled.jpg",
+  "backgroundCredit": "https://unsplash.com/photos/black-and-blue-feather-CIYt1FnKFo8",
 
-    "teamName": "Team Scales",
-    "teamId": "scales",
-    "bio": "This group of wet and wild aquatic animals is ready to make a splash!",
+  "teamName": "scales",
+  "teamId": "6",
+  "bio": "This group of wet and wild aquatic animals is ready to make a splash!",
 
-    "teamMembers": [
-        "/scales/team-member-001.json",
-        "/scales/team-member-002.json",
-        "/scales/team-member-003.json",
-        "/scales/team-member-004.json"
-    ]
+  "teamMembers": {
+    "21": {
+        "photo": "/scales/team-scales-001.jpg",
+        "photoThumb": "/scales/team-scales-001-thumb.jpg",
+        "photoCredit": "https://www.si.edu/object/cuban-crocodile:nzp_NZP-20160216-018CTW"
+    },
+    "22": {
+        "photo": "/scales/team-scales-002.jpg",
+        "photoThumb": "/scales/team-scales-002-thumb.jpg",
+        "photoCredit": "https://www.si.edu/object/mellers-chameleon:nzp_NZP-20170803-001JZ"
+    },
+    "23": {
+        "photo": "/scales/team-scales-003.jpg",
+        "photoThumb": "/scales/team-scales-003-thumb.jpg",
+        "photoCredit": "https://www.si.edu/object/caiman-lizard:nzp_NZP-20130313-038CPM-000001"
+    },
+    "24": {
+        "photo": "/scales/team-scales-004.jpg",
+        "photoThumb": "/scales/team-scales-004-thumb.jpg",
+        "photoCredit": "https://www.si.edu/object/rhinoceros-snake:nzp_NZP-20101116-076MM"
+    }
+  }
 }

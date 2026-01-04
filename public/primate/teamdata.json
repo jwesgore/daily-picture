@@ -2,14 +2,30 @@
     "background": "/primate/background_downscaled.jpg",
     "backgroundCredit": "https://unsplash.com/photos/area-covered-with-green-leafed-plants-qLW70Aoo8BE",
 
-    "teamName": "Team Primate",
-    "teamId": "primate",
+    "teamName": "primate",
+    "teamId": "5",
     "bio": "This group of wet and wild aquatic animals is ready to make a splash!",
 
-    "teamMembers": [
-        "/primate/team-member-001.json",
-        "/primate/team-member-002.json",
-        "/primate/team-member-003.json",
-        "/primate/team-member-004.json"
-    ]
+    "teamMembers": {
+        "17": {
+            "photo": "/primate/team-primate-001.jpg",
+            "photoThumb": "/primate/team-primate-001-thumb.jpg",
+            "photoCredit": "https://www.si.edu/object/red-fronted-lemur:nzp_NZP-20181114-3926SB"
+        },
+        "18": {
+            "photo": "/primate/team-primate-002.jpg",
+            "photoThumb": "/primate/team-primate-002-thumb.jpg",
+            "photoCredit": "https://www.si.edu/object/golden-lion-tamarin:nzp_NZP-20180807-159SB"
+        },
+        "19": {
+            "photo": "/primate/team-primate-003.jpg",
+            "photoThumb": "/primate/team-primate-003-thumb.jpg",
+            "photoCredit": "https://www.si.edu/object/lowland-gorilla:nzp_NZP-20020429-7740JC"
+        },
+        "20": {
+            "photo": "/primate/team-primate-004.jpg",
+            "photoThumb": "/primate/team-primate-004-thumb.jpg",
+            "photoCredit": "https://www.si.edu/object/orangutan:nzp_NZP-20060410-064JC-000001"
+        }
+    }
 }

@@ -1,18 +1,89 @@
-/* Import a friendly/display font and set as app default */
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap');
 
 :root{
-	--app-font: 'Baloo 2', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  --app-font: 'Fredoka', system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 
-html,body,#root{
-	height:100%;
+html, body, #root{
+  height:100%;
 }
 
 body{
-	margin:0;
-	font-family:var(--app-font);
-	-webkit-font-smoothing:antialiased;
-	-moz-osx-font-smoothing:grayscale;
-	background: #fafafa;
+  margin:0;
+  font-family:var(--app-font);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  background:#fafafa;
+}
+
+/* Home + matches */
+.home{
+  max-width:1000px;
+  margin:0 auto;
+  padding:1.5rem;
+}
+
+.home__header{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:0.5rem;
+  margin-bottom:1rem;
+}
+
+.home__status{ margin:1rem 0; color:#444; }
+.home__status--error{ color:#b00020; }
+
+.home__champion{
+  background:#fff4d5;
+  border:1px solid #f3d27a;
+  padding:0.75rem 1rem;
+  border-radius:8px;
+  margin-bottom:1rem;
+  font-weight:700;
+}
+
+.matches-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+  gap:1rem;
+}
+
+.match-card{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:10px;
+  padding:0.75rem 1rem;
+  box-shadow:0 4px 10px rgba(0,0,0,0.03);
+}
+
+.match-card__meta{
+  display:flex;
+  justify-content:space-between;
+  font-size:0.9rem;
+  color:#555;
+  margin-bottom:0.5rem;
+}
+
+.match-card__row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0.35rem 0;
+}
+
+.match-card__row.winner{ font-weight:700; color:#0f6a2e; }
+.match-card__row.bye{ color:#777; font-style:italic; }
+
+.pill{
+  background:#0f6a2e;
+  color:#fff;
+  border-radius:12px;
+  padding:0.1rem 0.55rem;
+  font-size:0.8rem;
+}
+
+.pill--muted{
+  background:#e5e7eb;
+  color:#555;
 }

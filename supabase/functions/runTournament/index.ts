@@ -132,7 +132,7 @@ async function runTournament() {
       matchesToInsert.push({
         date: today,
         rank,
-        rank_index: i + 1,
+        rank_index: i / 2 + 1,
         player_a: playerA.id,
         player_b: playerB.id,
         winner: winner.id,

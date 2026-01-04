@@ -2,15 +2,31 @@
     "background": "/silly/background_downscaled.jpg",
     "backgroundCredit": "https://unsplash.com/photos/selective-focus-photography-of-multicolored-confetti-lot-Xaanw0s0pMk",
 
-    "teamName": "Team Silly",
-    "teamId": "silly",
+    "teamName": "silly",
+    "teamId": "7",
 
     "bio": "This group of silly and fun animals is ready to make a splash!",
 
-    "teamMembers": [
-        "/silly/team-member-001.json",
-        "/silly/team-member-002.json",
-        "/silly/team-member-003.json",
-        "/silly/team-member-004.json"
-    ]
+    "teamMembers": {
+        "25": {
+            "photo": "/silly/team-silly-001.jpg",
+            "photoThumb": "/silly/team-silly-001-thumb.jpg",
+            "photoCredit": "https://www.si.edu/object/clouded-leopard:nzp_NZP-20100407-24MM"
+        },
+        "26": {
+            "photo": "/silly/team-silly-002.jpg",
+            "photoThumb": "/silly/team-silly-002-thumb.jpg",
+            "photoCredit": "https://www.si.edu/object/giant-panda:nzp_NZP-20091222-189MM-000002"
+        },
+        "27": {
+            "photo": "/silly/team-silly-003.jpg",
+            "photoThumb": "/silly/team-silly-003-thumb.jpg",
+            "photoCredit": "https://www.si.edu/object/lesser-kudu:nzp_NZP-20171103-007GM"
+        },
+        "28": {
+            "photo": "/silly/team-silly-004.jpg",
+            "photoThumb": "/silly/team-silly-004-thumb.jpg",
+            "photoCredit": "https://www.si.edu/object/komodo-dragon:nzp_NZP-20110518-144MM"
+        }
+    }
 }

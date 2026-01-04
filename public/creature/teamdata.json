@@ -1,16 +1,32 @@
 {
-    "background": "/creature/background_downscaled.jpg",
-    "backgroundCredit": "https://unsplash.com/photos/silhouette-of-trees-during-red-moon-2Ni0lCRF9bw",
+  "background": "/creature/background_downscaled.jpg",
+  "backgroundCredit": "https://unsplash.com/photos/silhouette-of-trees-during-red-moon-2Ni0lCRF9bw",
 
-    "teamName": "Team Creature",
-    "teamId": "creature",
+  "teamName": "creature",
+  "teamId": "2",
 
-    "bio": "This group of wet and wild aquatic animals is ready to make a splash!",
+  "bio": "This group of wet and wild aquatic animals is ready to make a splash!",
 
-    "teamMembers": [
-        "/creature/team-member-001.json",
-        "/creature/team-member-002.json",
-        "/creature/team-member-003.json",
-        "/creature/team-member-004.json"
-    ]
+  "teamMembers": {
+    "5": {
+      "photo": "/creature/team-creature-001.jpg",
+      "photoThumb": "/creature/team-creature-001-thumb.jpg",
+      "photoCredit": "https://www.si.edu/object/northern-tree-shrew:nzp_NZP-20071128-040MM"
+    },
+    "6": {
+      "photo": "/creature/team-creature-002.jpg",
+      "photoThumb": "/creature/team-creature-002-thumb.jpg",
+      "photoCredit": "https://www.si.edu/object/fennec-fox:nzp_NZP-20150503-5469CN"
+    },
+    "7": {
+      "photo": "/creature/team-creature-003.jpg",
+      "photoThumb": "/creature/team-creature-003-thumb.jpg",
+      "photoCredit": "https://www.si.edu/object/sloth-bear:nzp_NZP-20060531-175JC"
+    },
+    "8": {
+      "photo": "/creature/team-creature-004.jpg",
+      "photoThumb": "/creature/team-creature-004-thumb.jpg",
+      "photoCredit": "https://www.si.edu/object/prehensile-tailed-porcupine:nzp_NZP-20100615-034MM"
+    }
+  }
 }

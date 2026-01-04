@@ -2,15 +2,31 @@
     "background": "/feathers/background_downscaled.jpg",
     "backgroundCredit": "https://unsplash.com/photos/a-lot-of-stars-that-are-in-the-air-EnrXdeq4vJ8",
 
-    "teamName": "Team Feathers",
-    "teamId": "feathers",
+    "teamName": "feathers",
+    "teamId": "4",
 
     "bio": "This group of wet and wild aquatic animals is ready to make a splash!",
 
-    "teamMembers": [
-        "/feathers/team-member-001.json",
-        "/feathers/team-member-002.json",
-        "/feathers/team-member-003.json",
-        "/feathers/team-member-004.json"
-    ]
+    "teamMembers": {
+        "13": {
+            "photo": "/feathers/team-feathers-001.jpg",
+            "photoThumb": "/feathers/team-feathers-001-thumb.jpg",
+            "photoCredit": "https://www.si.edu/object/brown-kiwi:nzp_NZP-20100611-087MM"
+        },
+        "14": {
+            "photo": "/feathers/team-feathers-002.jpg",
+            "photoThumb": "/feathers/team-feathers-002-thumb.jpg",
+            "photoCredit": "https://www.si.edu/object/roseate-spoonbill:nzp_NZP-20160226-359CTW"
+        },
+        "15": {
+            "photo": "/feathers/team-feathers-003.jpg",
+            "photoThumb": "/feathers/team-feathers-003-thumb.jpg",
+            "photoCredit": "https://www.si.edu/object/burrowing-owl:nzp_NZP-20160219-069CTW"
+        },
+        "16": {
+            "photo": "/feathers/team-feathers-004.jpg",
+            "photoThumb": "/feathers/team-feathers-004-thumb.jpg",
+            "photoCredit": "https://www.si.edu/object/north-american-wood-duck:nzp_NZP-20181031-148SB"
+        }
+    }
 }
