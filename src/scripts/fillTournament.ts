@@ -18,12 +18,12 @@ type TournamentRank = typeof TournamentRank[keyof typeof TournamentRank];
 type Team = { id: number; name: string; };
 type Player = { 
     id: number; 
-    teamId: number; 
+    team_id: number; 
     name: string; 
     species: string; 
-    gamesPlayed: number;
-    gamesWon: number;
-    tournamentsWon: number;
+    games_played: number;
+    games_won: number;
+    tournaments_won: number;
 };
 
 // Helper shuffle function
@@ -54,7 +54,7 @@ async function runTournamentForDate(dateStr: string, teams: any[], players: any[
   const typedPlayers: Player[] = (players || []) as unknown as Player[];
 
   const reps: Player[] = typedTeams.map(team => {
-    const teamPlayers = typedPlayers.filter(p => p.teamId === team.id);
+    const teamPlayers = typedPlayers.filter(p => p.team_id === team.id);
     const pickedPlayer = pickRandom(teamPlayers);
     return pickedPlayer;
   });
@@ -71,8 +71,8 @@ async function runTournamentForDate(dateStr: string, teams: any[], players: any[
       const playerA = players[i];
       const playerB = players[i + 1];
 
-      playerA.gamesPlayed += 1;
-      playerB.gamesPlayed += 1;
+      playerA.games_played += 1;
+      playerB.games_played += 1;
 
       if (!playerA.id || updatedPlayers.find(p => p.id === playerA.id) === undefined) {
         updatedPlayers.push(playerA);
@@ -89,10 +89,10 @@ async function runTournamentForDate(dateStr: string, teams: any[], players: any[
 
       const winner = Math.random() < 0.5 ? playerA : playerB;
 
-      winner.gamesWon += 1;
+      winner.games_won += 1;
 
       if (rank === TournamentRank.Finals) {
-        winner.tournamentsWon += 1;
+        winner.tournaments_won += 1;
       }
 
       winners.push(winner);
@@ -130,9 +130,9 @@ async function runTournamentForDate(dateStr: string, teams: any[], players: any[
     const { error: updateErr } = await supabase
       .from("players")
       .update({
-        gamesPlayed: player.gamesPlayed,
-        gamesWon: player.gamesWon,
-        tournamentsWon: player.tournamentsWon,
+        games_played: player.games_played,
+        games_won: player.games_won,
+        tournaments_won: player.tournaments_won,
       })
       .eq("id", player.id);
 
