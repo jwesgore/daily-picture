@@ -18,9 +18,12 @@ body{
 
 /* Home + matches */
 .home{
-  max-width:1000px;
+  max-width:1100px;
   margin:0 auto;
-  padding:1.5rem;
+  padding:2rem 1.5rem;
+  display:flex;
+  flex-direction:column;
+  gap:1.25rem;
 }
 
 .home__header{
@@ -28,25 +31,82 @@ body{
   justify-content:space-between;
   align-items:baseline;
   gap:0.5rem;
-  margin-bottom:1rem;
+  margin:0;
 }
+
+.home__header h1{ margin:0; }
+.home__header p{ margin:0; color:#555; font-weight:600; }
 
 .home__status{ margin:1rem 0; color:#444; }
 .home__status--error{ color:#b00020; }
+.home__subnote{
+  margin:0 0 1.25rem;
+  color:#666;
+  font-weight:500;
+  font-size:0.95rem;
+}
 
 .home__champion{
-  background:#fff4d5;
-  border:1px solid #f3d27a;
-  padding:0.75rem 1rem;
-  border-radius:8px;
-  margin-bottom:1rem;
+  padding:1.25rem;
+  margin:0 auto 0.5rem;
   font-weight:700;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:0.75rem;
+  text-align:center;
+  width:100%;
+  max-width:520px;
+  border-bottom:1px solid #e0e0e0;
+  padding-bottom:1.5rem;
+}
+
+.home__champion-image{
+  width:200px;
+  height:200px;
+  object-fit:cover;
+  border-radius:10px;
+  border:1px solid #e5e7eb;
+  box-shadow:0 4px 8px rgba(0,0,0,0.08);
+}
+
+.home__champion-name{
+  margin:0;
+  font-size:1.5rem;
+  letter-spacing:-0.01em;
+}
+
+.home__champion-team{
+  color:#555;
+  font-weight:500;
+  font-size:0.95rem;
 }
 
 .matches-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
   gap:1rem;
+}
+
+.bracket{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+  gap:1.25rem;
+  align-items:start;
+}
+
+.bracket__column{
+  display:flex;
+  flex-direction:column;
+  gap:0.75rem;
+}
+
+.bracket__column-title{
+  font-weight:700;
+  color:#333;
+  margin-bottom:0.25rem;
+  text-align:center;
+  letter-spacing:0.02em;
 }
 
 .match-card{
@@ -63,6 +123,7 @@ body{
   font-size:0.9rem;
   color:#555;
   margin-bottom:0.5rem;
+  letter-spacing:0.01em;
 }
 
 .match-card__row{

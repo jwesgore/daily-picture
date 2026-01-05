@@ -9,8 +9,8 @@
 
   "teamMembers": {
     "5": {
-      "photo": "/creature/team-creature-001.jpg",
-      "photoThumb": "/creature/team-creature-001-thumb.jpg",
+      "photo": "/creature/team-creature-001_cropped.jpg",
+      "photoThumb": "/creature/team-creature-001-thumb_cropped.jpg",
       "photoCredit": "https://www.si.edu/object/northern-tree-shrew:nzp_NZP-20071128-040MM"
     },
     "6": {

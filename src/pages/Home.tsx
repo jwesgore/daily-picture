@@ -1,21 +1,34 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { supabase } from "../supabaseClient";
 
-type Match = { /* ...unchanged... */ };
+type Match = {
+  id: number;
+  date: string;
+  rank: "quarter" | "semi" | "final" | string;
+  rank_index: number;
+  player_a: number;
+  player_b: number | null;
+  winner: number;
+};
+
 type Player = { id: number; name: string; team_id: number };
 type Team = { id: number; name: string };
 
-const rankLabels = { quarter: "Quarterfinal", semi: "Semifinal", final: "Final" };
-const rankOrder = { quarter: 0, semi: 1, final: 2 };
-const teamSlugByName: Record<string, string> = {
-  "Team Aqua": "aqua",
-  "Team Creature": "creature",
-  "Team Diva": "diva",
-  "Team Feathers": "feathers",
-  "Team Primate": "primate",
-  "Team Scales": "scales",
-  "Team Silly": "silly",
-  "Team Smalls": "smalls",
+const rankLabels: Record<string, string> = {
+  quarter: "Quarterfinal",
+  semi: "Semifinal",
+  final: "Final",
+};
+const rankOrder: Record<string, number> = { quarter: 0, semi: 1, final: 2 };
+const teamDataFiles: Record<number, string> = {
+  1: "/aqua/teamdata.json",
+  2: "/creature/teamdata.json",
+  3: "/diva/teamdata.json",
+  4: "/feathers/teamdata.json",
+  5: "/primate/teamdata.json",
+  6: "/scales/teamdata.json",
+  7: "/silly/teamdata.json",
+  8: "/smalls/teamdata.json",
 };
 
 export default function Home() {
@@ -24,9 +37,7 @@ export default function Home() {
   const [teams, setTeams] = useState<Record<number, Team>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [championPhoto, setChampionPhoto] = useState<string | null>(null);
-  const [championCredit, setChampionCredit] = useState<string | null>(null);
-  const [photoLoading, setPhotoLoading] = useState(false);
+  const [championImageSrc, setChampionImageSrc] = useState<string | null>(null);
 
   const today = new Date().toISOString().slice(0, 10);
 
@@ -93,74 +104,62 @@ export default function Home() {
   };
 
   const championId = sortedMatches.find((m) => m.rank === "final")?.winner;
-  const championName = championId ? playerLabel(championId) : null;
+  const champion = championId ? players[championId] : undefined;
+
+  const bracket = useMemo(() => {
+    const by: Record<string, Match[]> = {};
+    for (const match of sortedMatches) {
+      if (!by[match.rank]) by[match.rank] = [];
+      by[match.rank].push(match);
+    }
+    const ranks = Object.keys(by).sort(
+      (a, b) => (rankOrder[a] ?? 99) - (rankOrder[b] ?? 99)
+    );
+    return { by, ranks };
+  }, [sortedMatches]);
 
   useEffect(() => {
     let cancelled = false;
 
-    const loadChampionPhoto = async () => {
+    const loadChampionImage = async () => {
       if (!championId) {
-        setChampionPhoto(null);
-        setChampionCredit(null);
+        setChampionImageSrc(null);
         return;
       }
 
-      const player = players[championId];
-      const team = player ? teams[player.team_id] : null;
-      const slug = team ? teamSlugByName[team.name] : undefined;
-
-      if (!player || !slug) {
-        setChampionPhoto(null);
-        setChampionCredit(null);
+      const championPlayer = players[championId];
+      if (!championPlayer) {
+        setChampionImageSrc(null);
         return;
       }
 
-      setPhotoLoading(true);
+      const dataPath = teamDataFiles[championPlayer.team_id];
+      if (!dataPath) {
+        setChampionImageSrc(null);
+        return;
+      }
+
       try {
-        const teamDataResp = await fetch(`/${slug}/teamdata.json`);
-        if (!teamDataResp.ok) throw new Error("team data fetch failed");
-        const teamData: { teamMembers?: string[] } = await teamDataResp.json();
-
-        for (const memberPath of teamData.teamMembers || []) {
-          const memberResp = await fetch(memberPath);
-          if (!memberResp.ok) continue;
-          const member: { name?: string; photo?: string; photoCredit?: string } =
-            await memberResp.json();
-          if (member.name === player.name) {
-            if (cancelled) return;
-            setChampionPhoto(member.photo ?? null);
-            setChampionCredit(member.photoCredit ?? null);
-            setPhotoLoading(false);
-            return;
-          }
-        }
-
-        if (!cancelled) {
-          setChampionPhoto(null);
-          setChampionCredit(null);
-          setPhotoLoading(false);
-        }
-      } catch (_err) {
-        if (!cancelled) {
-          setChampionPhoto(null);
-          setChampionCredit(null);
-          setPhotoLoading(false);
-        }
+        const response = await fetch(dataPath);
+        if (!response.ok) throw new Error(`Failed to load ${dataPath}`);
+        const data = await response.json();
+        const photo = data?.teamMembers?.[String(championId)]?.photo ?? null;
+        if (!cancelled) setChampionImageSrc(photo);
+      } catch (e) {
+        console.error(e);
+        if (!cancelled) setChampionImageSrc(null);
       }
     };
 
-    loadChampionPhoto();
+    loadChampionImage();
+
     return () => {
       cancelled = true;
     };
-  }, [championId, players, teams]);
+  }, [championId, players]);
 
   return (
     <main className="home">
-      <header className="home__header">
-        <h1>Today&apos;s Matches</h1>
-        <p>{today}</p>
-      </header>
 
       {loading && <p className="home__status">Loading today&apos;s bracket…</p>}
       {error && <p className="home__status home__status--error">{error}</p>}
@@ -170,65 +169,68 @@ export default function Home() {
 
       {!loading && !error && matches.length > 0 && (
         <>
-          {championName && (
-            <div className="home__champion">
-              <div>
-                <div className="home__champion-label">Champion</div>
-                <div className="home__champion-name">{championName}</div>
-                {photoLoading && <span className="pill pill--muted">Loading photo…</span>}
-              </div>
-              {championPhoto && (
-                <figure className="champion-figure">
-                  <img src={championPhoto} alt={`${championName} portrait`} loading="lazy" />
-                  {championCredit && (
-                    <figcaption>
-                      Photo:{" "}
-                      <a href={championCredit} target="_blank" rel="noreferrer">
-                        source
-                      </a>
-                    </figcaption>
-                  )}
-                </figure>
+          <header className="home__header">
+            <h1>Today&apos;s Winner</h1>
+            <p>{today}</p>
+          </header>
+          <p className="home__subnote">New Winner Picked Every Day 12 AM UTC</p>
+
+          {champion && (
+            <section className="home__champion">
+              <h2 className="home__champion-name">{champion.name}</h2>
+              {teams[champion.team_id]?.name && (
+                <div className="home__champion-team">Team {teams[champion.team_id].name.charAt(0).toUpperCase() + teams[champion.team_id].name.slice(1)}</div>
               )}
-            </div>
+              {championImageSrc && (
+                <img
+                  src={championImageSrc}
+                  alt={`${champion.name} from ${teams[champion.team_id]?.name ?? "unknown team"}`}
+                  className="home__champion-image"
+                />
+              )}
+            </section>
           )}
 
-          <div className="matches-grid">
-            {sortedMatches.map((match) => (
-              <article
-                className="match-card"
-                key={match.id ?? `${match.rank}-${match.rank_index}`}
-              >
-                <div className="match-card__meta">
-                  <span>{rankLabels[match.rank] ?? match.rank}</span>
-                  <span>Match {match.rank_index}</span>
-                </div>
+          <div className="bracket">
+            {bracket.ranks.map((rank) => (
+              <div className="bracket__column" key={rank}>
+                <div className="bracket__column-title">{rankLabels[rank] ?? rank}</div>
+                {bracket.by[rank]?.map((match) => (
+                  <article
+                    className="match-card"
+                    key={match.id ?? `${match.rank}-${match.rank_index}`}
+                  >
+                    <div className="match-card__meta">
+                      <span>Match {match.rank_index}</span>
+                    </div>
 
-                <div
-                  className={`match-card__row ${
-                    match.winner === match.player_a ? "winner" : ""
-                  }`}
-                >
-                  <span>{playerLabel(match.player_a)}</span>
-                  {match.winner === match.player_a && <span className="pill">Win</span>}
-                </div>
+                    <div
+                      className={`match-card__row ${
+                        match.winner === match.player_a ? "winner" : ""
+                      }`}
+                    >
+                      <span>{playerLabel(match.player_a)}</span>
+                      {match.winner === match.player_a && <span className="pill">Win</span>}
+                    </div>
 
-                <div
-                  className={`match-card__row ${
-                    !match.player_b
-                      ? "bye"
-                      : match.winner === match.player_b
-                      ? "winner"
-                      : ""
-                  }`}
-                >
-                  <span>{playerLabel(match.player_b)}</span>
-                  {match.player_b && match.winner === match.player_b && (
-                    <span className="pill">Win</span>
-                  )}
-                  {!match.player_b && <span className="pill pill--muted">Bye</span>}
-                </div>
-              </article>
+                    <div
+                      className={`match-card__row ${
+                        !match.player_b
+                          ? "bye"
+                          : match.winner === match.player_b
+                          ? "winner"
+                          : ""
+                      }`}
+                    >
+                      <span>{playerLabel(match.player_b)}</span>
+                      {match.player_b && match.winner === match.player_b && (
+                        <span className="pill">Win</span>
+                      )}
+                      {!match.player_b && <span className="pill pill--muted">Bye</span>}
+                    </div>
+                  </article>
+                ))}
+              </div>
             ))}
           </div>
         </>
