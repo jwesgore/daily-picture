@@ -1,32 +1,32 @@
 {
-    "background": "/diva/background_downscaled.jpg",
-    "backgroundCredit": "https://unsplash.com/photos/a-lot-of-stars-that-are-in-the-air-EnrXdeq4vJ8",
+  "background": "/diva/background_downscaled.jpg",
+  "backgroundCredit": "https://unsplash.com/photos/a-lot-of-stars-that-are-in-the-air-EnrXdeq4vJ8",
 
-    "teamName": "diva",
-    "teamId": "3",
+  "teamName": "diva",
+  "teamId": "3",
 
-    "bio": "This group of wet and wild aquatic animals is ready to make a splash!",
+  "bio": "When we're not at the salon you can find us at the Pink Pony Club",
 
-    "teamMembers": {
-        "9": {
-            "photo": "/diva/team-diva-001_cropped.jpg",
-            "photoThumb": "/diva/team-diva-001-thumb_cropped.jpg",
-            "photoCredit": "https://www.si.edu/object/holstein-cow:nzp_NZP-20180514-428RP"
-        },
-        "10": {
-            "photo": "/diva/team-diva-002_cropped.jpg",
-            "photoThumb": "/diva/team-diva-002-thumb_cropped.jpg",
-            "photoCredit": "https://www.si.edu/object/peruvian-guinea-pig-masi:nzp_NZP-20191215_005CC"
-        },
-        "11": {
-            "photo": "/diva/team-diva-003_cropped.jpg",
-            "photoThumb": "/diva/team-diva-003-thumb_cropped.jpg",
-            "photoCredit": "https://www.si.edu/object/asian-elephant:nzp_NZP-20180628-596SB"
-        },
-        "12": {
-            "photo": "/diva/team-diva-004_cropped.jpg",
-            "photoThumb": "/diva/team-diva-004-thumb_cropped.jpg",
-            "photoCredit": "https://www.si.edu/object/american-flamingo:nzp_NZP-20110624-399MM-000002"
-        }
+  "teamMembers": {
+    "9": {
+      "photo": "/diva/team-diva-001_cropped.jpg",
+      "photoThumb": "/diva/team-diva-001-thumb_cropped.jpg",
+      "photoCredit": "https://www.si.edu/object/holstein-cow:nzp_NZP-20180514-428RP"
+    },
+    "10": {
+      "photo": "/diva/team-diva-002_cropped.jpg",
+      "photoThumb": "/diva/team-diva-002-thumb_cropped.jpg",
+      "photoCredit": "https://www.si.edu/object/peruvian-guinea-pig-masi:nzp_NZP-20191215_005CC"
+    },
+    "11": {
+      "photo": "/diva/team-diva-003_cropped.jpg",
+      "photoThumb": "/diva/team-diva-003-thumb_cropped.jpg",
+      "photoCredit": "https://www.si.edu/object/asian-elephant:nzp_NZP-20180628-596SB"
+    },
+    "12": {
+      "photo": "/diva/team-diva-004_cropped.jpg",
+      "photoThumb": "/diva/team-diva-004-thumb_cropped.jpg",
+      "photoCredit": "https://www.si.edu/object/american-flamingo:nzp_NZP-20110624-399MM-000002"
     }
+  }
 }

@@ -1,32 +1,32 @@
 {
-    "background": "/feathers/background_downscaled.jpg",
-    "backgroundCredit": "https://unsplash.com/photos/a-lot-of-stars-that-are-in-the-air-EnrXdeq4vJ8",
+  "background": "/feathers/background_downscaled.jpg",
+  "backgroundCredit": "https://unsplash.com/photos/a-lot-of-stars-that-are-in-the-air-EnrXdeq4vJ8",
 
-    "teamName": "feathers",
-    "teamId": "4",
+  "teamName": "feathers",
+  "teamId": "4",
 
-    "bio": "This group of wet and wild aquatic animals is ready to make a splash!",
+  "bio": "Yeah not all of us can fly, wanna fight about it?",
 
-    "teamMembers": {
-        "13": {
-            "photo": "/feathers/team-feathers-001_cropped.jpg",
-            "photoThumb": "/feathers/team-feathers-001-thumb_cropped.jpg",
-            "photoCredit": "https://www.si.edu/object/brown-kiwi:nzp_NZP-20100611-087MM"
-        },
-        "14": {
-            "photo": "/feathers/team-feathers-002_cropped.jpg",
-            "photoThumb": "/feathers/team-feathers-002-thumb_cropped.jpg",
-            "photoCredit": "https://www.si.edu/object/roseate-spoonbill:nzp_NZP-20160226-359CTW"
-        },
-        "15": {
-            "photo": "/feathers/team-feathers-003_cropped.jpg",
-            "photoThumb": "/feathers/team-feathers-003-thumb_cropped.jpg",
-            "photoCredit": "https://www.si.edu/object/burrowing-owl:nzp_NZP-20160219-069CTW"
-        },
-        "16": {
-            "photo": "/feathers/team-feathers-004_cropped.jpg",
-            "photoThumb": "/feathers/team-feathers-004-thumb_cropped.jpg",
-            "photoCredit": "https://www.si.edu/object/north-american-wood-duck:nzp_NZP-20181031-148SB"
-        }
+  "teamMembers": {
+    "13": {
+      "photo": "/feathers/team-feathers-001_cropped.jpg",
+      "photoThumb": "/feathers/team-feathers-001-thumb_cropped.jpg",
+      "photoCredit": "https://www.si.edu/object/brown-kiwi:nzp_NZP-20100611-087MM"
+    },
+    "14": {
+      "photo": "/feathers/team-feathers-002_cropped.jpg",
+      "photoThumb": "/feathers/team-feathers-002-thumb_cropped.jpg",
+      "photoCredit": "https://www.si.edu/object/roseate-spoonbill:nzp_NZP-20160226-359CTW"
+    },
+    "15": {
+      "photo": "/feathers/team-feathers-003_cropped.jpg",
+      "photoThumb": "/feathers/team-feathers-003-thumb_cropped.jpg",
+      "photoCredit": "https://www.si.edu/object/burrowing-owl:nzp_NZP-20160219-069CTW"
+    },
+    "16": {
+      "photo": "/feathers/team-feathers-004_cropped.jpg",
+      "photoThumb": "/feathers/team-feathers-004-thumb_cropped.jpg",
+      "photoCredit": "https://www.si.edu/object/north-american-wood-duck:nzp_NZP-20181031-148SB"
     }
+  }
 }

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import NavBar from './components/NavBar'
 import Home from './pages/Home'
 import Teams from './pages/Teams'
+import TeamPage from './components/Teams/TeamPage'
 import Scoreboard from './pages/Scoreboard'
 import About from './pages/About'
 
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/teams" element={<Teams />} />
+        <Route path="/teams/:teamName" element={<TeamPage />} />
         <Route path="/scoreboard" element={<Scoreboard />} />
         <Route path="/about" element={<About />} />
       </Routes>

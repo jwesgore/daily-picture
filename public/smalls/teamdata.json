@@ -1,32 +1,32 @@
 {
-    "background": "/smalls/background-cropped.jpg",
-    "backgroundCredit": "https://unsplash.com/photos/a-single-yellow-flower-in-a-grassy-field-RC1rYekLf7Y",
+  "background": "/smalls/background-cropped.jpg",
+  "backgroundCredit": "https://unsplash.com/photos/a-single-yellow-flower-in-a-grassy-field-RC1rYekLf7Y",
 
-    "teamName": "Smalls",
-    "teamId": "8",
+  "teamName": "smalls",
+  "teamId": "8",
 
-    "bio": "This group of wet and wild aquatic animals is ready to make a splash!",
+  "bio": "Members must not exceed 2g of protein",
 
-    "teamMembers": {
-        "29": {
-            "photo": "/smalls/team-smalls-001_cropped.jpg",
-            "photoThumb": "/smalls/team-smalls-001-thumb_cropped.jpg",
-            "photoCredit": "https://www.si.edu/object/patagonian-mara:nzp_NZP-20170809-3080RP"
-        },
-        "30": {
-            "photo": "/smalls/team-smalls-002_cropped.jpg",
-            "photoThumb": "/smalls/team-smalls-002-thumb_cropped.jpg",
-            "photoCredit": "https://www.si.edu/object/short-eared-elephant-shrew:nzp_NZP-20160219-054CTW"
-        },
-        "31": {
-            "photo": "/smalls/team-smalls-003_cropped.jpg",
-            "photoThumb": "/smalls/team-smalls-003-thumb_cropped.jpg",
-            "photoCredit": "https://www.si.edu/object/norway-rat:nzp_NZP-20140217-001ES"
-        },
-        "32": {
-            "photo": "/smalls/team-smalls-004_cropped.jpg",
-            "photoThumb": "/smalls/team-smalls-004-thumb_cropped.jpg",
-            "photoCredit": "https://www.si.edu/object/screaming-hairy-armadillo:nzp_NZP-20141121-011CPM"
-        }
+  "teamMembers": {
+    "29": {
+      "photo": "/smalls/team-smalls-001_cropped.jpg",
+      "photoThumb": "/smalls/team-smalls-001-thumb_cropped.jpg",
+      "photoCredit": "https://www.si.edu/object/patagonian-mara:nzp_NZP-20170809-3080RP"
+    },
+    "30": {
+      "photo": "/smalls/team-smalls-002_cropped.jpg",
+      "photoThumb": "/smalls/team-smalls-002-thumb_cropped.jpg",
+      "photoCredit": "https://www.si.edu/object/short-eared-elephant-shrew:nzp_NZP-20160219-054CTW"
+    },
+    "31": {
+      "photo": "/smalls/team-smalls-003_cropped.jpg",
+      "photoThumb": "/smalls/team-smalls-003-thumb_cropped.jpg",
+      "photoCredit": "https://www.si.edu/object/norway-rat:nzp_NZP-20140217-001ES"
+    },
+    "32": {
+      "photo": "/smalls/team-smalls-004_cropped.jpg",
+      "photoThumb": "/smalls/team-smalls-004-thumb_cropped.jpg",
+      "photoCredit": "https://www.si.edu/object/screaming-hairy-armadillo:nzp_NZP-20141121-011CPM"
     }
+  }
 }
