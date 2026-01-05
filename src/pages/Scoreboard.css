@@ -1,0 +1,166 @@
+/* Scoreboard page */
+.scoreboard{
+  max-width:1200px;
+  margin:0 auto;
+  padding:2rem 1.5rem;
+}
+
+.scoreboard__header{
+  margin-bottom:2rem;
+  text-align:center;
+}
+
+.scoreboard__header h1{
+  margin:0 0 0.5rem;
+  font-size:2rem;
+}
+
+.scoreboard__subtitle{
+  color:#666;
+  font-size:1rem;
+  margin:0 0 1rem;
+  font-weight:500;
+}
+
+.scoreboard__toggle{
+  display:flex;
+  gap:0.5rem;
+  justify-content:center;
+  margin-top:1rem;
+}
+
+.scoreboard__toggle-btn{
+  padding:0.5rem 1.5rem;
+  border:2px solid #e5e7eb;
+  background:#fff;
+  color:#666;
+  font-family:inherit;
+  font-weight:600;
+  font-size:0.95rem;
+  border-radius:8px;
+  cursor:pointer;
+  transition:all 0.2s ease;
+}
+
+.scoreboard__toggle-btn:hover{
+  border-color:#0f6a2e;
+  color:#0f6a2e;
+}
+
+.scoreboard__toggle-btn.active{
+  background:#0f6a2e;
+  border-color:#0f6a2e;
+  color:#fff;
+}
+
+.scoreboard__status{
+  margin:1rem 0;
+  color:#444;
+  text-align:center;
+}
+
+.scoreboard__status--error{
+  color:#b00020;
+}
+
+.scoreboard__table-wrapper{
+  overflow-x:auto;
+  background:#fff;
+  border-radius:12px;
+  border:1px solid #e5e7eb;
+  box-shadow:0 4px 10px rgba(0,0,0,0.03);
+}
+
+.scoreboard__table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:0.95rem;
+}
+
+.scoreboard__table thead{
+  background:#f8f9fa;
+  border-bottom:2px solid #e5e7eb;
+}
+
+.scoreboard__table th{
+  padding:1rem;
+  text-align:left;
+  font-weight:700;
+  color:#333;
+  text-transform:uppercase;
+  font-size:0.85rem;
+  letter-spacing:0.05em;
+}
+
+.scoreboard__table td{
+  padding:1rem;
+  border-bottom:1px solid #f0f0f0;
+}
+
+.scoreboard__table tbody tr:last-child td{
+  border-bottom:none;
+}
+
+.scoreboard__table tbody tr:hover{
+  background:#fafafa;
+}
+
+.scoreboard__row--podium{
+  background:#fffdf0;
+}
+
+.scoreboard__row--podium:hover{
+  background:#fffadb !important;
+}
+
+.scoreboard__rank{
+  width:80px;
+  text-align:center;
+  font-weight:700;
+  font-size:1.1rem;
+}
+
+.scoreboard__name{
+  font-weight:600;
+  color:#333;
+}
+
+.scoreboard__team{
+  color:#555;
+  font-weight:500;
+}
+
+.scoreboard__score{
+  font-weight:700;
+  color:#0f6a2e;
+  text-align:center;
+  width:100px;
+}
+
+.scoreboard__wins,
+.scoreboard__losses{
+  text-align:center;
+  width:80px;
+  color:#666;
+}
+
+@media (max-width: 768px) {
+  .scoreboard__table{
+    font-size:0.85rem;
+  }
+  
+  .scoreboard__table th,
+  .scoreboard__table td{
+    padding:0.75rem 0.5rem;
+  }
+  
+  .scoreboard__rank{
+    width:60px;
+  }
+  
+  .scoreboard__score,
+  .scoreboard__wins,
+  .scoreboard__losses{
+    width:70px;
+  }
+}

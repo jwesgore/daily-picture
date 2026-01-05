@@ -111,10 +111,3 @@
 .overlay-link .overlay {
   cursor: pointer;
 }
-
-@media (min-width: 1000px) {
-  .image-grid img {
-    width: 120px;
-    height: 120px;
-  }
-}
