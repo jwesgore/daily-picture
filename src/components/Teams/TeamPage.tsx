@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { supabase } from "../../supabaseClient";
 import "./TeamPage.css";
 
@@ -37,15 +37,8 @@ type PlayerStat = {
   losses: number;
 };
 
-const rankPoints: Record<string, number> = {
-  quarter: 1,
-  semi: 4,
-  final: 8,
-};
-
 export default function TeamPage() {
   const { teamName } = useParams<{ teamName: string }>();
-  const navigate = useNavigate();
   const [teamData, setTeamData] = useState<TeamData | null>(null);
   const [players, setPlayers] = useState<Record<number, Player>>({});
   const [matches, setMatches] = useState<Match[]>([]);
@@ -165,28 +158,30 @@ export default function TeamPage() {
         <h2 className="team-detail__section-title">Players</h2>
         <div className="team-detail__grid">
           {teamPlayers.map((player) => (
-            <div key={player.id} className="player-card">
-              {player.photo && (
-                <img
-                  src={player.photo}
-                  alt={player.name}
-                  className="player-card__image"
-                />
-              )}
-              <div className="player-card__content">
-                <h3 className="player-card__name">{player.name}</h3>
-                <div className="player-card__stats">
-                  <div className="player-card__stat">
-                    <span className="player-card__stat-label">Wins</span>
-                    <span className="player-card__stat-value">{player.wins}</span>
-                  </div>
-                  <div className="player-card__stat">
-                    <span className="player-card__stat-label">Losses</span>
-                    <span className="player-card__stat-value">{player.losses}</span>
+            <Link key={player.id} to={`/player/${player.id}`} className="player-card-link">
+              <div className="player-card">
+                {player.photo && (
+                  <img
+                    src={player.photo}
+                    alt={player.name}
+                    className="player-card__image"
+                  />
+                )}
+                <div className="player-card__content">
+                  <h3 className="player-card__name">{player.name}</h3>
+                  <div className="player-card__stats">
+                    <div className="player-card__stat">
+                      <span className="player-card__stat-label">Wins</span>
+                      <span className="player-card__stat-value">{player.wins}</span>
+                    </div>
+                    <div className="player-card__stat">
+                      <span className="player-card__stat-label">Losses</span>
+                      <span className="player-card__stat-value">{player.losses}</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>

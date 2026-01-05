@@ -61,13 +61,18 @@ export default function TeamQuickView({ teamData }: TeamQuickViewProps) {
           </div>
           <div className="image-grid">
             {members.map((member, index) => (
-              <img
+              <Link
                 key={member.id ?? index}
-                src={member.photoThumb}
-                alt={`Showcase image ${index + 1}`}
-                loading="lazy"
-                style={{ cursor: "pointer" }}
-              />
+                to={`/player/${member.id}`}
+                className="player-thumb-link"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <img
+                  src={member.photoThumb}
+                  alt={`Showcase image ${index + 1}`}
+                  loading="lazy"
+                />
+              </Link>
             ))}
           </div>
         </div>

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import "./Scoreboard.css";
 
@@ -207,7 +208,9 @@ export default function Scoreboard() {
                     {index === 2 && "🥉"}
                     {index > 2 && index + 1}
                   </td>
-                  <td className="scoreboard__name">{stat.name}</td>
+                  <td className="scoreboard__name">
+                    <Link to={`/player/${stat.id}`}>{stat.name}</Link>
+                  </td>
                   <td className="scoreboard__team">
                     {stat.team.charAt(0).toUpperCase() + stat.team.slice(1)}
                   </td>

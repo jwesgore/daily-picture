@@ -97,6 +97,17 @@
   border-bottom:1px solid #f0f0f0;
 }
 
+.scoreboard__name a {
+  color: #333;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.scoreboard__name a:hover {
+  color: #0066cc;
+  text-decoration: underline;
+}
+
 .scoreboard__table tbody tr:last-child td{
   border-bottom:none;
 }

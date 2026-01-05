@@ -10,6 +10,12 @@
   border-radius: 16px;
 }
 
+.overlay-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
 .teamQuickView .overlay {
   border-radius: 16px;
   padding: 16px 24px;
@@ -24,7 +30,7 @@
   transition: background 180ms ease, box-shadow 180ms ease;
 }
 
-.teamQuickView .overlay:hover:not(:has(.image-grid img:hover)) {
+.teamQuickView .overlay:hover:not(:has(.image-grid a:hover)) {
   background: rgba(255, 255, 255, 0.24);
   box-shadow: 0 8px 32px rgba(0,0,0,0.12);
 }
@@ -46,8 +52,12 @@
   transition: background 180ms ease, transform 160ms ease;
 }
 
+.showcase-overlay:hover {
+  background: rgba(255,255,255,1);
+}
+
 /* lighten inner showcase slightly when hovering the overlay */
-.teamQuickView .overlay:hover:not(:has(.image-grid img:hover)) .showcase-overlay {
+.teamQuickView .overlay:hover:not(:has(.image-grid a:hover)) .showcase-overlay {
   background: rgba(255,255,255,1);
 }
 
@@ -66,6 +76,17 @@
   justify-content: center;
   gap: 1rem;
   align-items: center;
+}
+
+.player-thumb-link {
+  display: block;
+  border-radius: 8px;
+  transition: transform 160ms ease;
+}
+
+.player-thumb-link:hover {
+  transform: scale(1.1);
+  z-index: 10;
 }
 
 .image-grid img {

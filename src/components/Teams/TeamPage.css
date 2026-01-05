@@ -87,6 +87,17 @@
   gap: 1.5rem;
 }
 
+.player-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.player-card-link:hover {
+  transform: translateY(-4px);
+}
+
 .player-card {
   background: #fff;
   border: 1px solid #e5e7eb;
@@ -94,9 +105,10 @@
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: all 0.2s ease;
+  height: 100%;
 }
 
-.player-card:hover {
+.player-card-link:hover .player-card {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
 }
