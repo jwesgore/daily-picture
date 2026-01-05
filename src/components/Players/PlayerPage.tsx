@@ -1,43 +1,12 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
+import { loadTeamDataById, getPlayerPhoto, getPlayerPhotoCredit } from '../../utils/teamData';
+import { RANK_POINTS } from '../../constants';
+import type { Player, Team, Match, TeamData } from '../../types';
 import './PlayerPage.css';
 
-type Player = { id: number; name: string; team_id: number };
-type Team = { id: number; name: string };
-type Match = { id: number; date: string; rank: string; rank_index: number; player_a: number; player_b: number; winner: number };
-
-interface TeamMemberData {
-  photo: string;
-  photoThumb: string;
-  photoCredit: string;
-}
-
-interface TeamData {
-  teamName: string;
-  teamId: string;
-  bio: string;
-  teamMembers: { [key: string]: TeamMemberData };
-}
-
-const teamDataFiles: { [key: number]: string } = {
-  1: '/aqua/teamdata.json',
-  2: '/creature/teamdata.json',
-  3: '/diva/teamdata.json',
-  4: '/feathers/teamdata.json',
-  5: '/primate/teamdata.json',
-  6: '/scales/teamdata.json',
-  7: '/silly/teamdata.json',
-  8: '/smalls/teamdata.json',
-};
-
-const rankPoints = {
-  quarter: 1,
-  semi: 4,
-  final: 8,
-};
-
-function PlayerPage() {
+export default function PlayerPage() {
   const { playerId } = useParams();
   const [players, setPlayers] = useState<{ [key: number]: Player }>({});
   const [teams, setTeams] = useState<{ [key: number]: Team }>({});
@@ -77,18 +46,8 @@ function PlayerPage() {
       if (!playerId || !players[Number(playerId)]) return;
 
       const player = players[Number(playerId)];
-      const teamId = player.team_id;
-      const teamDataFile = teamDataFiles[teamId];
-
-      if (teamDataFile) {
-        try {
-          const response = await fetch(teamDataFile);
-          const data: TeamData = await response.json();
-          setTeamData(data);
-        } catch (error) {
-          console.error('Error loading team data:', error);
-        }
-      }
+      const data = await loadTeamDataById(player.team_id);
+      setTeamData(data);
     };
 
     loadTeamData();
@@ -106,9 +65,7 @@ function PlayerPage() {
     const losses = playerMatches.filter(m => m.winner !== id);
 
     const score = wins.reduce((sum, match) => {
-      const points = match.rank === 'quarter' ? rankPoints.quarter : 
-                     match.rank === 'semi' ? rankPoints.semi : 
-                     match.rank === 'final' ? rankPoints.final : 0;
+      const points = RANK_POINTS[match.rank] || 0;
       return sum + points;
     }, 0);
 
@@ -131,7 +88,8 @@ function PlayerPage() {
 
   const { player, wins, losses, score, winRate } = playerStats;
   const team = teams[player.team_id];
-  const memberData = teamData?.teamMembers[playerId];
+  const playerPhoto = getPlayerPhoto(teamData, playerId!);
+  const photoCredit = getPlayerPhotoCredit(teamData, playerId!);
 
   return (
     <div className="player-page">
@@ -146,21 +104,23 @@ function PlayerPage() {
 
       <div className="player-content">
         <div className="player-image-section">
-          {memberData && (
+          {playerPhoto && (
             <>
               <img 
-                src={memberData.photo} 
+                src={playerPhoto} 
                 alt={player.name}
                 className="player-image"
               />
-              <a 
-                href={memberData.photoCredit} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="player-photo-credit"
-              >
-                Photo Credit
-              </a>
+              {photoCredit && (
+                <a 
+                  href={photoCredit} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="player-photo-credit"
+                >
+                  Photo Credit
+                </a>
+              )}
             </>
           )}
         </div>
@@ -200,5 +160,3 @@ function PlayerPage() {
     </div>
   );
 }
-
-export default PlayerPage;

@@ -1,41 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "../../supabaseClient";
+import { loadTeamDataByName } from "../../utils/teamData";
+import type { Player, Match, TeamData, PlayerWithStats } from "../../types";
 import "./TeamPage.css";
-
-type Player = { id: number; name: string; team_id: number };
-type Match = {
-  id: number;
-  date: string;
-  rank: "quarter" | "semi" | "final" | string;
-  rank_index: number;
-  player_a: number;
-  player_b: number | null;
-  winner: number;
-};
-
-type TeamMemberData = {
-  photo: string;
-  photoThumb: string;
-  photoCredit: string;
-};
-
-type TeamData = {
-  background: string;
-  backgroundCredit: string;
-  teamName: string;
-  teamId: number;
-  bio: string;
-  teamMembers: Record<string, Omit<TeamMemberData, "id">>;
-};
-
-type PlayerStat = {
-  id: number;
-  name: string;
-  photo: string;
-  wins: number;
-  losses: number;
-};
 
 export default function TeamPage() {
   const { teamName } = useParams<{ teamName: string }>();
@@ -52,9 +20,8 @@ export default function TeamPage() {
 
       try {
         // Fetch team data JSON
-        const response = await fetch(`/${teamName}/teamdata.json`);
-        if (!response.ok) throw new Error("Team not found");
-        const data = await response.json();
+        const data = await loadTeamDataByName(teamName || "");
+        if (!data) throw new Error("Team not found");
         setTeamData(data);
 
         // Fetch all players
@@ -63,7 +30,7 @@ export default function TeamPage() {
           .select("id,name,team_id");
 
         if (playersError) throw playersError;
-        setPlayers(Object.fromEntries((playersData || []).map((p) => [p.id, p])));
+        setPlayers(Object.fromEntries((playersData || []).map((p: Player) => [p.id, p])));
 
         // Fetch all matches
         const { data: matchesData, error: matchesError } = await supabase
@@ -83,10 +50,10 @@ export default function TeamPage() {
     if (teamName) load();
   }, [teamName]);
 
-  const teamPlayers = useMemo(() => {
+  const teamPlayers = useMemo((): PlayerWithStats[] => {
     if (!teamData) return [];
 
-    const playerStats: Record<number, PlayerStat> = {};
+    const playerStats: Record<number, PlayerWithStats> = {};
     const teamMembersKeys = Object.keys(teamData.teamMembers || {});
 
     // Get all players that have data in this team's JSON (by player ID)
