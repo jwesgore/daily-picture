@@ -15,6 +15,10 @@ export default function PlayerPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [playerId]);
+
+  useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       
@@ -78,6 +82,14 @@ export default function PlayerPage() {
     };
   }, [playerId, players, matches]);
 
+  const teammates = useMemo(() => {
+    if (!playerId || !players[Number(playerId)]) return [];
+    
+    const currentPlayer = players[Number(playerId)];
+    return Object.values(players)
+      .filter(p => p.team_id === currentPlayer.team_id && p.id !== currentPlayer.id);
+  }, [playerId, players]);
+
   if (loading) {
     return <div className="player-page-loading">Loading...</div>;
   }
@@ -94,13 +106,13 @@ export default function PlayerPage() {
   return (
     <div className="player-page">
       <div className="player-header">
-        <h1>{player.name}</h1>
-        <p className="player-species">{player.species}</p>
         {team && (
           <Link to={`/teams/${team.name}`} className="player-team-link">
-            Team {team.name.charAt(0).toUpperCase() + team.name.slice(1)}
+            ← Team {team.name.charAt(0).toUpperCase() + team.name.slice(1)}
           </Link>
         )}
+        <h1>{player.name}</h1>
+        <p className="player-species">{player.species}</p>
       </div>
 
       <div className="player-content">
@@ -153,6 +165,34 @@ export default function PlayerPage() {
           </div>
         </div>
       </div>
+
+      {teammates.length > 0 && (
+        <div className="teammates-section">
+          <h2>Meet the Rest of the Team</h2>
+          <div className="teammates-grid">
+            {teammates.map((teammate) => {
+              const teammatePhoto = getPlayerPhoto(teamData, String(teammate.id));
+              return (
+                <Link 
+                  key={teammate.id} 
+                  to={`/player/${teammate.id}`} 
+                  className="teammate-card"
+                >
+                  {teammatePhoto && (
+                    <img 
+                      src={teammatePhoto} 
+                      alt={teammate.name}
+                      className="teammate-image"
+                    />
+                  )}
+                  <div className="teammate-name">{teammate.name}</div>
+                  <div className="teammate-species">{teammate.species}</div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

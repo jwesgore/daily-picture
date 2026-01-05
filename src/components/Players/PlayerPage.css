@@ -13,36 +13,37 @@
 }
 
 .player-header {
-  text-align: center;
   margin-bottom: 2rem;
-}
-
-.player-header h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-  color: #333;
-}
-
-.player-species {
-  font-size: 1.2rem;
-  color: #666;
-  font-style: italic;
-  margin: 0 0 1rem;
 }
 
 .player-team-link {
   display: inline-block;
   color: #0066cc;
   text-decoration: none;
-  font-size: 1.1rem;
-  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
   border-radius: 8px;
   transition: background-color 0.2s;
+  margin-bottom: 1rem;
 }
 
 .player-team-link:hover {
   background-color: #f0f0f0;
-  text-decoration: underline;
+}
+
+.player-header h1 {
+  font-size: 2.5rem;
+  margin: 0 0 0.5rem 0;
+  color: #333;
+  text-align: center;
+}
+
+.player-species {
+  font-size: 1.2rem;
+  color: #666;
+  font-style: italic;
+  margin: 0;
+  text-align: center;
 }
 
 .player-content {
@@ -133,9 +134,76 @@
   color: #555;
 }
 
+.teammates-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px solid #e0e0e0;
+}
+
+.teammates-section h2 {
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+  text-align: center;
+}
+
+.teammates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.teammate-card {
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 1rem;
+  text-decoration: none;
+  transition: all 0.2s;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.teammate-card:hover {
+  border-color: #0066cc;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.teammate-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  border: 2px solid #e0e0e0;
+}
+
+.teammate-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.teammate-species {
+  font-size: 0.95rem;
+  color: #666;
+  font-style: italic;
+}
+
 @media (max-width: 768px) {
   .player-page {
     padding: 1rem;
+  }
+
+  .player-header h1,
+  .player-species {
+    text-align: center;
   }
 
   .player-header h1 {
