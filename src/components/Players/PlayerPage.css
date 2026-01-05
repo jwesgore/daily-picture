@@ -23,6 +23,13 @@
   color: #333;
 }
 
+.player-species {
+  font-size: 1.2rem;
+  color: #666;
+  font-style: italic;
+  margin: 0 0 1rem;
+}
+
 .player-team-link {
   display: inline-block;
   color: #0066cc;

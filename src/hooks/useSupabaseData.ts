@@ -37,7 +37,7 @@ export function useSupabaseData(): SupabaseDataState {
 
         const { data: playersData, error: playersError } = await supabase
           .from("players")
-          .select("id,name,team_id");
+          .select("id,name,team_id,species,bio");
 
         if (playersError) throw playersError;
 
@@ -99,7 +99,7 @@ export function useMatchesByDate(date: string): SupabaseDataState {
 
         const { data: playersData, error: playersError } = await supabase
           .from("players")
-          .select("id,name,team_id");
+          .select("id,name,team_id,species,bio");
 
         if (playersError) throw playersError;
 

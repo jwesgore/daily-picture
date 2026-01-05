@@ -27,7 +27,7 @@ export default function TeamPage() {
         // Fetch all players
         const { data: playersData, error: playersError } = await supabase
           .from("players")
-          .select("id,name,team_id");
+          .select("id,name,team_id,species,bio");
 
         if (playersError) throw playersError;
         setPlayers(Object.fromEntries((playersData || []).map((p: Player) => [p.id, p])));
@@ -65,6 +65,7 @@ export default function TeamPage() {
         playerStats[id] = {
           id,
           name: player.name,
+          species: player.species,
           photo: memberData?.photo || "",
           wins: 0,
           losses: 0,
@@ -136,6 +137,7 @@ export default function TeamPage() {
                 )}
                 <div className="player-card__content">
                   <h3 className="player-card__name">{player.name}</h3>
+                  <p className="player-card__species">{player.species}</p>
                   <div className="player-card__stats">
                     <div className="player-card__stat">
                       <span className="player-card__stat-label">Wins</span>

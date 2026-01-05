@@ -3,6 +3,8 @@ export type Player = {
   id: number;
   name: string;
   team_id: number;
+  species: string;
+  bio: string;
 };
 
 export type Team = {
@@ -57,6 +59,7 @@ export type TeamStats = {
 export type PlayerWithStats = {
   id: number;
   name: string;
+  species: string;
   photo: string;
   wins: number;
   losses: number;

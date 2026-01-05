@@ -95,6 +95,7 @@ export default function PlayerPage() {
     <div className="player-page">
       <div className="player-header">
         <h1>{player.name}</h1>
+        <p className="player-species">{player.species}</p>
         {team && (
           <Link to={`/teams/${team.name}`} className="player-team-link">
             Team {team.name.charAt(0).toUpperCase() + team.name.slice(1)}
@@ -126,7 +127,7 @@ export default function PlayerPage() {
         </div>
 
         <div className="player-stats-section">
-          <h2>Tournament Statistics</h2>
+          <h2>Player Statistics</h2>
           <div className="player-stats-grid">
             <div className="stat-card">
               <div className="stat-label">Total Score</div>
@@ -148,12 +149,7 @@ export default function PlayerPage() {
 
           <div className="player-info">
             <h3>About</h3>
-            <p>
-              {player.name} competes in the Daily Animal Tournament as a member of Team {team?.name.charAt(0).toUpperCase() + team?.name.slice(1)}.
-              {wins > 0 && ` With ${wins} ${wins === 1 ? 'victory' : 'victories'} and a ${winRate}% win rate, `}
-              {wins === 0 && ' As they continue their tournament journey, '}
-              they {wins > losses ? 'have proven to be a formidable competitor' : 'are determined to climb the ranks'}.
-            </p>
+            <p>{player.bio}</p>
           </div>
         </div>
       </div>
