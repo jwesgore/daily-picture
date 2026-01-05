@@ -148,3 +148,77 @@ body{
   background:#e5e7eb;
   color:#555;
 }
+
+/* About page */
+.about{
+  max-width:800px;
+  margin:0 auto;
+  padding:2rem 1.5rem;
+  line-height:1.6;
+}
+
+.about__header{
+  margin-bottom:2rem;
+  text-align:center;
+}
+
+.about__header h1{
+  margin:0 0 0.5rem;
+  font-size:2rem;
+}
+
+.about__intro{
+  color:#666;
+  font-size:1.1rem;
+  margin:0;
+}
+
+.about__section{
+  margin-bottom:2rem;
+  padding-bottom:1.5rem;
+  border-bottom:1px solid #e0e0e0;
+}
+
+.about__section:last-of-type{
+  border-bottom:none;
+}
+
+.about__section h2{
+  margin:0 0 1rem;
+  font-size:1.5rem;
+  color:#333;
+}
+
+.about__section p{
+  margin:0 0 1rem;
+  color:#444;
+}
+
+.about__section ul{
+  margin:1rem 0;
+  padding-left:1.5rem;
+}
+
+.about__section li{
+  margin:0.5rem 0;
+  color:#444;
+}
+
+.about__section a{
+  color:#0f6a2e;
+  text-decoration:none;
+  font-weight:600;
+}
+
+.about__section a:hover{
+  text-decoration:underline;
+}
+
+.about__footer{
+  margin-top:2rem;
+  padding-top:1.5rem;
+  border-top:1px solid #e0e0e0;
+  text-align:center;
+  color:#666;
+  font-size:0.9rem;
+}
