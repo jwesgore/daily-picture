@@ -9,23 +9,23 @@
 
   "teamMembers": {
     "1": {
-      "photo": "/aqua/team-aqua-001.jpg",
-      "photoThumb": "/aqua/team-aqua-001-thumb.jpg",
+      "photo": "/aqua/team-aqua-001_cropped.jpg",
+      "photoThumb": "/aqua/team-aqua-001-thumb_cropped.jpg",
       "photoCredit": "https://www.si.edu/object/freshwater-stingray:nzp_NZP-20130614-04AW"
     },
     "2": {
-      "photo": "/aqua/team-aqua-002.jpg",
-      "photoThumb": "/aqua/team-aqua-002-thumb.jpg",
+      "photo": "/aqua/team-aqua-002_cropped.jpg",
+      "photoThumb": "/aqua/team-aqua-002-thumb_cropped.jpg",
       "photoCredit": "https://www.si.edu/object/silver-arowana:nzp_NZP-20150121-8618AW-000001"
     },
     "3": {
-      "photo": "/aqua/team-aqua-003.jpg",
-      "photoThumb": "/aqua/team-aqua-003-thumb.jpg",
+      "photo": "/aqua/team-aqua-003_cropped.jpg",
+      "photoThumb": "/aqua/team-aqua-003-thumb_cropped.jpg",
       "photoCredit": "https://www.si.edu/object/channel-catfish:nzp_NZP-20160518-1340NM" 
     },
     "4": {
-      "photo": "/aqua/team-aqua-004.jpg",
-      "photoThumb": "/aqua/team-aqua-004-thumb.jpg",
+      "photo": "/aqua/team-aqua-004_cropped.jpg",
+      "photoThumb": "/aqua/team-aqua-004-thumb_cropped.jpg",
       "photoCredit": "https://www.si.edu/object/california-sea-lion:nzp_NZP-20090916-095MM"
     }
   }

@@ -8,23 +8,23 @@
 
     "teamMembers": {
         "17": {
-            "photo": "/primate/team-primate-001.jpg",
-            "photoThumb": "/primate/team-primate-001-thumb.jpg",
+            "photo": "/primate/team-primate-001_cropped.jpg",
+            "photoThumb": "/primate/team-primate-001-thumb_cropped.jpg",
             "photoCredit": "https://www.si.edu/object/red-fronted-lemur:nzp_NZP-20181114-3926SB"
         },
         "18": {
-            "photo": "/primate/team-primate-002.jpg",
-            "photoThumb": "/primate/team-primate-002-thumb.jpg",
+            "photo": "/primate/team-primate-002_cropped.jpg",
+            "photoThumb": "/primate/team-primate-002-thumb_cropped.jpg",
             "photoCredit": "https://www.si.edu/object/golden-lion-tamarin:nzp_NZP-20180807-159SB"
         },
         "19": {
-            "photo": "/primate/team-primate-003.jpg",
-            "photoThumb": "/primate/team-primate-003-thumb.jpg",
+            "photo": "/primate/team-primate-003_cropped.jpg",
+            "photoThumb": "/primate/team-primate-003-thumb_cropped.jpg",
             "photoCredit": "https://www.si.edu/object/lowland-gorilla:nzp_NZP-20020429-7740JC"
         },
         "20": {
-            "photo": "/primate/team-primate-004.jpg",
-            "photoThumb": "/primate/team-primate-004-thumb.jpg",
+            "photo": "/primate/team-primate-004_cropped.jpg",
+            "photoThumb": "/primate/team-primate-004-thumb_cropped.jpg",
             "photoCredit": "https://www.si.edu/object/orangutan:nzp_NZP-20060410-064JC-000001"
         }
     }

@@ -14,18 +14,18 @@
       "photoCredit": "https://www.si.edu/object/northern-tree-shrew:nzp_NZP-20071128-040MM"
     },
     "6": {
-      "photo": "/creature/team-creature-002.jpg",
-      "photoThumb": "/creature/team-creature-002-thumb.jpg",
+      "photo": "/creature/team-creature-002_cropped.jpg",
+      "photoThumb": "/creature/team-creature-002-thumb_cropped.jpg",
       "photoCredit": "https://www.si.edu/object/fennec-fox:nzp_NZP-20150503-5469CN"
     },
     "7": {
-      "photo": "/creature/team-creature-003.jpg",
-      "photoThumb": "/creature/team-creature-003-thumb.jpg",
+      "photo": "/creature/team-creature-003_cropped.jpg",
+      "photoThumb": "/creature/team-creature-003-thumb_cropped.jpg",
       "photoCredit": "https://www.si.edu/object/sloth-bear:nzp_NZP-20060531-175JC"
     },
     "8": {
-      "photo": "/creature/team-creature-004.jpg",
-      "photoThumb": "/creature/team-creature-004-thumb.jpg",
+      "photo": "/creature/team-creature-004_cropped.jpg",
+      "photoThumb": "/creature/team-creature-004-thumb_cropped.jpg",
       "photoCredit": "https://www.si.edu/object/prehensile-tailed-porcupine:nzp_NZP-20100615-034MM"
     }
   }

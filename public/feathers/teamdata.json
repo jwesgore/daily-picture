@@ -9,23 +9,23 @@
 
     "teamMembers": {
         "13": {
-            "photo": "/feathers/team-feathers-001.jpg",
-            "photoThumb": "/feathers/team-feathers-001-thumb.jpg",
+            "photo": "/feathers/team-feathers-001_cropped.jpg",
+            "photoThumb": "/feathers/team-feathers-001-thumb_cropped.jpg",
             "photoCredit": "https://www.si.edu/object/brown-kiwi:nzp_NZP-20100611-087MM"
         },
         "14": {
-            "photo": "/feathers/team-feathers-002.jpg",
-            "photoThumb": "/feathers/team-feathers-002-thumb.jpg",
+            "photo": "/feathers/team-feathers-002_cropped.jpg",
+            "photoThumb": "/feathers/team-feathers-002-thumb_cropped.jpg",
             "photoCredit": "https://www.si.edu/object/roseate-spoonbill:nzp_NZP-20160226-359CTW"
         },
         "15": {
-            "photo": "/feathers/team-feathers-003.jpg",
-            "photoThumb": "/feathers/team-feathers-003-thumb.jpg",
+            "photo": "/feathers/team-feathers-003_cropped.jpg",
+            "photoThumb": "/feathers/team-feathers-003-thumb_cropped.jpg",
             "photoCredit": "https://www.si.edu/object/burrowing-owl:nzp_NZP-20160219-069CTW"
         },
         "16": {
-            "photo": "/feathers/team-feathers-004.jpg",
-            "photoThumb": "/feathers/team-feathers-004-thumb.jpg",
+            "photo": "/feathers/team-feathers-004_cropped.jpg",
+            "photoThumb": "/feathers/team-feathers-004-thumb_cropped.jpg",
             "photoCredit": "https://www.si.edu/object/north-american-wood-duck:nzp_NZP-20181031-148SB"
         }
     }
