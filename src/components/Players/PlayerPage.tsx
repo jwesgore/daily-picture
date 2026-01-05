@@ -1,111 +1,70 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { supabase } from '../../supabaseClient';
-import { loadTeamDataById, getPlayerPhoto, getPlayerPhotoCredit } from '../../utils/teamData';
+import { getPlayerPhoto, getPlayerPhotoCredit } from '../../utils/teamData';
 import { RANK_POINTS } from '../../constants';
-import type { Player, Team, Match, TeamData } from '../../types';
+import {
+  usePlayerData,
+  useTeamPlayers,
+  useTeam,
+  usePlayerMatches,
+  useTeamData,
+  usePrefetchPlayer
+} from '../../hooks/usePlayerQueries';
 import './PlayerPage.css';
 
 export default function PlayerPage() {
   const { playerId } = useParams();
-  const [players, setPlayers] = useState<{ [key: number]: Player }>({});
-  const [teams, setTeams] = useState<{ [key: number]: Team }>({});
-  const [matches, setMatches] = useState<Match[]>([]);
-  const [teamData, setTeamData] = useState<TeamData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const playerIdNum = useMemo(() => Number(playerId), [playerId]);
+  const prefetchPlayer = usePrefetchPlayer();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [playerId]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      
-      const { data: playersData } = await supabase.from('players').select('*');
-      const { data: teamsData } = await supabase.from('teams').select('*');
-      const { data: matchesData } = await supabase.from('matches').select('*');
-
-      const playersMap: { [key: number]: Player } = {};
-      playersData?.forEach((p: Player) => {
-        playersMap[p.id] = p as Player;
-      });
-
-      const teamsMap: { [key: number]: Team } = {};
-      teamsData?.forEach((t: Team) => {
-        teamsMap[t.id] = t as Team;
-      });
-
-      setPlayers(playersMap);
-      setTeams(teamsMap);
-      setMatches((matchesData as Match[]) || []);
-      setLoading(false);
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const loadTeamData = async () => {
-      if (!playerId || !players[Number(playerId)]) return;
-
-      const player = players[Number(playerId)];
-      const data = await loadTeamDataById(player.team_id);
-      setTeamData(data);
-    };
-
-    loadTeamData();
-  }, [playerId, players]);
+  const { data: player, isLoading: playerLoading, error: playerError } = usePlayerData(playerIdNum);
+  const { data: players } = useTeamPlayers(player?.team_id);
+  const { data: team } = useTeam(player?.team_id);
+  const { data: matches } = usePlayerMatches(playerIdNum);
+  const { data: teamData } = useTeamData(player?.team_id);
 
   const playerStats = useMemo(() => {
-    if (!playerId) return null;
+    if (!player || !matches) return null;
 
-    const id = Number(playerId);
-    const player = players[id];
-    if (!player) return null;
+    const playerMatches = matches.filter(
+      m => m.player_a === playerIdNum || m.player_b === playerIdNum
+    );
+    const wins = playerMatches.filter(m => m.winner === playerIdNum);
+    const losses = playerMatches.filter(m => m.winner !== playerIdNum);
+    const score = wins.reduce((sum, match) => sum + (RANK_POINTS[match.rank] || 0), 0);
+    const winRate = playerMatches.length > 0
+      ? ((wins.length / playerMatches.length) * 100).toFixed(1)
+      : '0.0';
 
-    const playerMatches = matches.filter(m => m.player_a === id || m.player_b === id);
-    const wins = playerMatches.filter(m => m.winner === id);
-    const losses = playerMatches.filter(m => m.winner !== id);
-
-    const score = wins.reduce((sum, match) => {
-      const points = RANK_POINTS[match.rank] || 0;
-      return sum + points;
-    }, 0);
-
-    return {
-      player,
-      wins: wins.length,
-      losses: losses.length,
-      score,
-      winRate: playerMatches.length > 0 ? ((wins.length / playerMatches.length) * 100).toFixed(1) : '0.0',
-    };
-  }, [playerId, players, matches]);
+    return { wins: wins.length, losses: losses.length, score, winRate };
+  }, [player, matches, playerIdNum]);
 
   const teammates = useMemo(() => {
-    if (!playerId || !players[Number(playerId)]) return [];
-    
-    const currentPlayer = players[Number(playerId)];
-    return Object.values(players)
-      .filter(p => p.team_id === currentPlayer.team_id && p.id !== currentPlayer.id);
-  }, [playerId, players]);
+    if (!player || !players) return [];
+    return Object.values(players).filter(
+      p => p.team_id === player.team_id && p.id !== player.id
+    );
+  }, [player, players]);
 
-  if (loading) {
+  if (playerLoading && !player) {
     return <div className="player-page-loading">Loading...</div>;
   }
 
-  if (!playerId || !playerStats) {
+  if (playerError || !player || !playerStats) {
     return <div className="player-page-error">Player not found</div>;
   }
 
-  const { player, wins, losses, score, winRate } = playerStats;
-  const team = teams[player.team_id];
-  const playerPhoto = getPlayerPhoto(teamData, playerId!);
-  const photoCredit = getPlayerPhotoCredit(teamData, playerId!);
+  const { wins, losses, score, winRate } = playerStats;
+  const playerPhoto = getPlayerPhoto(teamData || null, playerId!);
+  const photoCredit = getPlayerPhotoCredit(teamData || null, playerId!);
 
   return (
     <div className="player-page">
-      <div className="player-header">
+      <header className="player-header">
         {team && (
           <Link to={`/teams/${team.name}`} className="player-team-link">
             ← Team {team.name.charAt(0).toUpperCase() + team.name.slice(1)}
@@ -113,21 +72,17 @@ export default function PlayerPage() {
         )}
         <h1>{player.name}</h1>
         <p className="player-species">{player.species}</p>
-      </div>
+      </header>
 
       <div className="player-content">
-        <div className="player-image-section">
+        <section className="player-image-section">
           {playerPhoto && (
             <>
-              <img 
-                src={playerPhoto} 
-                alt={player.name}
-                className="player-image"
-              />
+              <img src={playerPhoto} alt={player.name} className="player-image" />
               {photoCredit && (
-                <a 
-                  href={photoCredit} 
-                  target="_blank" 
+                <a
+                  href={photoCredit}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="player-photo-credit"
                 >
@@ -136,9 +91,9 @@ export default function PlayerPage() {
               )}
             </>
           )}
-        </div>
+        </section>
 
-        <div className="player-stats-section">
+        <section className="player-stats-section">
           <h2>Player Statistics</h2>
           <div className="player-stats-grid">
             <div className="stat-card">
@@ -163,27 +118,24 @@ export default function PlayerPage() {
             <h3>About</h3>
             <p>{player.bio}</p>
           </div>
-        </div>
+        </section>
       </div>
 
       {teammates.length > 0 && (
-        <div className="teammates-section">
+        <section className="teammates-section">
           <h2>Meet the Rest of the Team</h2>
           <div className="teammates-grid">
             {teammates.map((teammate) => {
-              const teammatePhoto = getPlayerPhoto(teamData, String(teammate.id));
+              const teammatePhoto = getPlayerPhoto(teamData || null, String(teammate.id));
               return (
-                <Link 
-                  key={teammate.id} 
-                  to={`/player/${teammate.id}`} 
+                <Link
+                  key={teammate.id}
+                  to={`/player/${teammate.id}`}
                   className="teammate-card"
+                  onMouseEnter={() => prefetchPlayer(teammate.id)}
                 >
                   {teammatePhoto && (
-                    <img 
-                      src={teammatePhoto} 
-                      alt={teammate.name}
-                      className="teammate-image"
-                    />
+                    <img src={teammatePhoto} alt={teammate.name} className="teammate-image" />
                   )}
                   <div className="teammate-name">{teammate.name}</div>
                   <div className="teammate-species">{teammate.species}</div>
@@ -191,7 +143,7 @@ export default function PlayerPage() {
               );
             })}
           </div>
-        </div>
+        </section>
       )}
     </div>
   );

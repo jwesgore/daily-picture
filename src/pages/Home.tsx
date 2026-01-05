@@ -6,7 +6,7 @@ import type { Match } from "../types";
 
 export default function Home() {
   const today = new Date().toISOString().slice(0, 10);
-  const { data, loading, error } = useMatchesByDate(today);
+  const { data, isLoading, error } = useMatchesByDate(today);
   const [championImageSrc, setChampionImageSrc] = useState<string | null>(null);
 
   const players = data?.players ?? {};
@@ -77,13 +77,13 @@ export default function Home() {
   return (
     <main className="home">
 
-      {loading && <p className="home__status">Loading today&apos;s bracket…</p>}
-      {error && <p className="home__status home__status--error">{error}</p>}
-      {!loading && !error && matches.length === 0 && (
+      {isLoading && <p className="home__status">Loading today&apos;s bracket…</p>}
+      {error && <p className="home__status home__status--error">{error.toString()}</p>}
+      {!isLoading && !error && matches.length === 0 && (
         <p className="home__status">No matches recorded for today yet.</p>
       )}
 
-      {!loading && !error && matches.length > 0 && (
+      {!isLoading && !error && matches.length > 0 && (
         <>
           <header className="home__header">
             <h1>Today&apos;s Winner</h1>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../supabaseClient";
 import type { Player, Team, Match } from "../types";
 
@@ -8,131 +8,111 @@ export type SupabaseData = {
   matches: Match[];
 };
 
-export type SupabaseDataState = {
-  data: SupabaseData | null;
-  loading: boolean;
-  error: string | null;
-};
+// Calculate milliseconds until next midnight UTC
+function getMillisecondsUntilMidnightUTC(): number {
+  const now = new Date();
+  const nextMidnight = new Date(Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate() + 1,
+    0, 0, 0, 0
+  ));
+  return nextMidnight.getTime() - now.getTime();
+}
 
 /**
  * Custom hook to fetch all Supabase data (players, teams, matches)
  * Returns data in a normalized format with players and teams as lookup objects
+ * Caches until midnight UTC since data only changes daily
  */
-export function useSupabaseData(): SupabaseDataState {
-  const [data, setData] = useState<SupabaseData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export function useSupabaseData() {
+  return useQuery({
+    queryKey: ['supabaseData'],
+    queryFn: async () => {
+      const { data: matchesData, error: matchesError } = await supabase
+        .from("matches")
+        .select("*");
 
-  useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
-      setError(null);
+      if (matchesError) throw matchesError;
 
-      try {
-        const { data: matchesData, error: matchesError } = await supabase
-          .from("matches")
-          .select("*");
+      const { data: playersData, error: playersError } = await supabase
+        .from("players")
+        .select("id,name,team_id,species,bio");
 
-        if (matchesError) throw matchesError;
+      if (playersError) throw playersError;
 
-        const { data: playersData, error: playersError } = await supabase
-          .from("players")
-          .select("id,name,team_id,species,bio");
+      const { data: teamsData, error: teamsError } = await supabase
+        .from("teams")
+        .select("id,name");
 
-        if (playersError) throw playersError;
+      if (teamsError) throw teamsError;
 
-        const { data: teamsData, error: teamsError } = await supabase
-          .from("teams")
-          .select("id,name");
+      // Normalize data into lookup objects
+      const playersMap: Record<number, Player> = {};
+      playersData?.forEach((p: Player) => {
+        playersMap[p.id] = p;
+      });
 
-        if (teamsError) throw teamsError;
+      const teamsMap: Record<number, Team> = {};
+      teamsData?.forEach((t: Team) => {
+        teamsMap[t.id] = t;
+      });
 
-        // Normalize data into lookup objects
-        const playersMap: Record<number, Player> = {};
-        playersData?.forEach((p: Player) => {
-          playersMap[p.id] = p;
-        });
-
-        const teamsMap: Record<number, Team> = {};
-        teamsData?.forEach((t: Team) => {
-          teamsMap[t.id] = t;
-        });
-
-        setData({
-          players: playersMap,
-          teams: teamsMap,
-          matches: (matchesData as Match[]) || [],
-        });
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to load data");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadData();
-  }, []);
-
-  return { data, loading, error };
+      return {
+        players: playersMap,
+        teams: teamsMap,
+        matches: (matchesData as Match[]) || [],
+      };
+    },
+    staleTime: getMillisecondsUntilMidnightUTC(),
+    gcTime: 1000 * 60 * 60 * 24,
+  });
 }
 
 /**
  * Custom hook to fetch matches for a specific date
+ * Caches until midnight UTC since data only changes daily
  */
-export function useMatchesByDate(date: string): SupabaseDataState {
-  const [data, setData] = useState<SupabaseData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export function useMatchesByDate(date: string) {
+  return useQuery({
+    queryKey: ['matchesByDate', date],
+    queryFn: async () => {
+      const { data: matchesData, error: matchesError } = await supabase
+        .from("matches")
+        .select("*")
+        .eq("date", date);
 
-  useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
-      setError(null);
+      if (matchesError) throw matchesError;
 
-      try {
-        const { data: matchesData, error: matchesError } = await supabase
-          .from("matches")
-          .select("*")
-          .eq("date", date);
+      const { data: playersData, error: playersError } = await supabase
+        .from("players")
+        .select("id,name,team_id,species,bio");
 
-        if (matchesError) throw matchesError;
+      if (playersError) throw playersError;
 
-        const { data: playersData, error: playersError } = await supabase
-          .from("players")
-          .select("id,name,team_id,species,bio");
+      const { data: teamsData, error: teamsError } = await supabase
+        .from("teams")
+        .select("id,name");
 
-        if (playersError) throw playersError;
+      if (teamsError) throw teamsError;
 
-        const { data: teamsData, error: teamsError } = await supabase
-          .from("teams")
-          .select("id,name");
+      const playersMap: Record<number, Player> = {};
+      playersData?.forEach((p: Player) => {
+        playersMap[p.id] = p;
+      });
 
-        if (teamsError) throw teamsError;
+      const teamsMap: Record<number, Team> = {};
+      teamsData?.forEach((t: Team) => {
+        teamsMap[t.id] = t;
+      });
 
-        const playersMap: Record<number, Player> = {};
-        playersData?.forEach((p: Player) => {
-          playersMap[p.id] = p;
-        });
-
-        const teamsMap: Record<number, Team> = {};
-        teamsData?.forEach((t: Team) => {
-          teamsMap[t.id] = t;
-        });
-
-        setData({
-          players: playersMap,
-          teams: teamsMap,
-          matches: (matchesData as Match[]) || [],
-        });
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to load data");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadData();
-  }, [date]);
-
-  return { data, loading, error };
+      return {
+        players: playersMap,
+        teams: teamsMap,
+        matches: (matchesData as Match[]) || [],
+      };
+    },
+    staleTime: getMillisecondsUntilMidnightUTC(),
+    gcTime: 1000 * 60 * 60 * 24,
+  });
 }

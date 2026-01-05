@@ -6,7 +6,7 @@ import type { PlayerStats, TeamStats } from "../types";
 import "./Scoreboard.css";
 
 export default function Scoreboard() {
-  const { data, loading, error } = useSupabaseData();
+  const { data, isLoading, error } = useSupabaseData();
   const [viewMode, setViewMode] = useState<"players" | "teams">("players");
 
   const players = data?.players ?? {};
@@ -105,10 +105,10 @@ export default function Scoreboard() {
         </div>
       </header>
 
-      {loading && <p className="scoreboard__status">Loading statistics…</p>}
-      {error && <p className="scoreboard__status scoreboard__status--error">{error}</p>}
+      {isLoading && <p className="scoreboard__status">Loading statistics…</p>}
+      {error && <p className="scoreboard__status scoreboard__status--error">{error.toString()}</p>}
 
-      {!loading && !error && viewMode === "players" && (
+      {!isLoading && !error && viewMode === "players" && (
         <div className="scoreboard__table-wrapper">
           <table className="scoreboard__table">
             <thead>
@@ -146,7 +146,7 @@ export default function Scoreboard() {
         </div>
       )}
 
-      {!loading && !error && viewMode === "teams" && (
+      {!isLoading && !error && viewMode === "teams" && (
         <div className="scoreboard__table-wrapper">
           <table className="scoreboard__table">
             <thead>
