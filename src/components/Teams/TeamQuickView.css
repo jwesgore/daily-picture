@@ -76,12 +76,23 @@
   display: block;
   transition: opacity 160ms ease, transform 160ms ease;
   border-radius: 8px;
-  
+  border: 2px solid #fff;
 }
 
 /* scale image when hovering */
 .image-grid img:hover {
   transform: scale(1.05);
+}
+
+@media (max-width: 640px) {
+  .image-grid {
+    gap: 0.5rem;
+  }
+
+  .image-grid img {
+    width: 70px;
+    height: 70px;
+  }
 }
 
 .overlay-link {
