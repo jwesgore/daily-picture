@@ -120,6 +120,13 @@
   font-size:1.1rem;
 }
 
+.scoreboard__table th.scoreboard__rank,
+.scoreboard__table th.scoreboard__score,
+.scoreboard__table th.scoreboard__wins,
+.scoreboard__table th.scoreboard__losses{
+  text-align:center;
+}
+
 .scoreboard__name{
   font-weight:600;
   color:#333;
@@ -145,22 +152,49 @@
 }
 
 @media (max-width: 768px) {
+  .scoreboard{
+    padding:1.5rem 1rem;
+  }
+
+  .scoreboard__header h1{
+    font-size:1.6rem;
+  }
+
+  .scoreboard__toggle-btn{
+    padding:0.4rem 1rem;
+    font-size:0.9rem;
+  }
+
   .scoreboard__table{
-    font-size:0.85rem;
+    font-size:0.8rem;
   }
   
   .scoreboard__table th,
   .scoreboard__table td{
-    padding:0.75rem 0.5rem;
+    padding:0.6rem 0.4rem;
+  }
+
+  .scoreboard__table th{
+    font-size:0.75rem;
   }
   
   .scoreboard__rank{
-    width:60px;
+    width:50px;
+    font-size:0.95rem;
+  }
+
+  .scoreboard__name{
+    font-size:0.9rem;
+  }
+
+  .scoreboard__team{
+    display:none;
   }
   
   .scoreboard__score,
   .scoreboard__wins,
   .scoreboard__losses{
-    width:70px;
+    width:60px;
+    font-size:0.85rem;
   }
 }
