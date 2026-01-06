@@ -91,7 +91,15 @@ export default function Profile() {
     setSelectedPlayer(playerId);
     setIsSaving(true);
     try {
-      await updateFavorites(undefined, playerId);
+      let thumbUrl: string | null = null;
+      if (playerId) {
+        const player = players[playerId];
+        if (player) {
+          const teamData = await loadTeamDataById(player.team_id);
+          thumbUrl = getPlayerPhotoThumb(teamData, playerId);
+        }
+      }
+      await updateFavorites(undefined, playerId, undefined, thumbUrl);
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     } finally {

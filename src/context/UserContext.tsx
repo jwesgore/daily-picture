@@ -19,7 +19,7 @@ interface UserContextType {
   login: (username: string, password: string) => Promise<void>;
   signup: (username: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
-  updateFavorites: (teamId?: number | null, playerId?: number | null, color?: string) => Promise<void>;
+  updateFavorites: (teamId?: number | null, playerId?: number | null, color?: string, avatarUrl?: string | null) => Promise<void>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -128,13 +128,14 @@ export function UserProvider({ children }: { children: ReactNode }) {
     setUser(null);
   };
 
-  const updateFavorites = async (teamId?: number | null, playerId?: number | null, color?: string) => {
+  const updateFavorites = async (teamId?: number | null, playerId?: number | null, color?: string, avatarUrl?: string | null) => {
     if (!user) return;
 
     const updates: any = {};
     if (teamId !== undefined) updates.favorite_team_id = teamId;
     if (playerId !== undefined) updates.favorite_player_id = playerId;
     if (color !== undefined) updates.favorite_color = color;
+    if (avatarUrl !== undefined) updates.avatar_url = avatarUrl;
 
     const { error } = await supabase
       .from('users')
