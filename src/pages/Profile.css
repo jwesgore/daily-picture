@@ -62,7 +62,8 @@
   cursor: not-allowed;
 }
 
-.player-select-button {
+.player-select-button,
+.team-select-button {
   width: 100%;
   padding: 0.85rem 1rem;
   background: linear-gradient(135deg, #f7f9fc 0%, #eef3fb 100%);
@@ -78,19 +79,22 @@
   gap: 0.5rem;
 }
 
-.player-select-button:hover:not(:disabled) {
+.player-select-button:hover:not(:disabled),
+.team-select-button:hover:not(:disabled) {
   border-color: #5c8cf5;
   box-shadow: 0 6px 18px rgba(92, 140, 245, 0.2);
   transform: translateY(-1px);
 }
 
-.player-select-button:focus {
+.player-select-button:focus,
+.team-select-button:focus {
   outline: none;
   border-color: #3f73f1;
   box-shadow: 0 0 0 3px rgba(63, 115, 241, 0.2);
 }
 
-.player-select-button:disabled {
+.player-select-button:disabled,
+.team-select-button:disabled {
   background-color: #f5f5f5;
   cursor: not-allowed;
   opacity: 0.65;
@@ -131,6 +135,21 @@
   color: #4caf50;
   margin: 1rem 0;
   font-weight: 600;
+}
+
+.saved-banner {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #e6f4ff;
+  color: #0b5ed7;
+  border: 1px solid #b6d4fe;
+  padding: 0.65rem 1.1rem;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0, 102, 204, 0.18);
+  font-weight: 600;
+  z-index: 1200;
 }
 
 .profile-actions {

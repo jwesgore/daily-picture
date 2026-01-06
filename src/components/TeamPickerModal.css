@@ -1,0 +1,143 @@
+.team-picker-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.team-picker-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  width: 92%;
+  max-width: 760px;
+  max-height: 85vh;
+}
+
+.team-picker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #e6e8ef;
+}
+
+.team-picker-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #1f2d3d;
+}
+
+.team-picker-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #8a94a6;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  transition: color 0.2s;
+}
+
+.team-picker-close:hover {
+  color: #1f2d3d;
+}
+
+.team-picker-grid {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.75rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.team-picker-grid.loading {
+  opacity: 0.75;
+}
+
+.team-picker-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #7a869a;
+  font-size: 0.95rem;
+}
+
+.team-picker-card {
+  position: relative;
+  width: 100%;
+  height: 140px;
+  background: #f3f6fb;
+  border: 1px solid #e1e6f3;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+}
+
+.team-picker-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--team-bg);
+  background-size: cover;
+  background-position: center;
+  opacity: 0.9;
+  transition: transform 0.25s ease;
+}
+
+.team-picker-card:hover::before {
+  transform: scale(1.03);
+}
+
+.team-picker-card:hover {
+  box-shadow: 0 8px 20px rgba(92, 140, 245, 0.18);
+  border-color: #5c8cf5;
+}
+
+.team-picker-card-selected {
+  box-shadow: 0 8px 22px rgba(63, 115, 241, 0.18);
+  border-color: #3f73f1;
+}
+
+.team-picker-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.55) 100%);
+  display: flex;
+  align-items: flex-end;
+  padding: 0.75rem 1rem;
+  color: white;
+}
+
+.team-picker-name {
+  font-weight: 700;
+  font-size: 1rem;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+.team-picker-checkmark {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: #3f73f1;
+  color: white;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}

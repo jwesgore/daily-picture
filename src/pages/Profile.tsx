@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../context/UserContext';
 import { useSupabaseData } from '../hooks/useSupabaseData';
 import Auth from '../components/Auth';
-import PlayerPickerModal from '../components/PlayerPickerModal';
+import PlayerPickerModal from '../components/PlayerPickerModal.tsx';
+import TeamPickerModal from '../components/TeamPickerModal.tsx';
 import './Profile.css';
 
 const BORDER_COLORS = [
@@ -24,6 +25,7 @@ export default function Profile() {
   const [selectedColor, setSelectedColor] = useState<string>('#0066cc');
   const [isSaving, setIsSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [showTeamPicker, setShowTeamPicker] = useState(false);
   const [showPlayerPicker, setShowPlayerPicker] = useState(false);
 
   const teams = data?.teams ?? {};
@@ -83,6 +85,7 @@ export default function Profile() {
 
   return (
     <div className="profile-page">
+      {saved && <div className="saved-banner">✓ Saved</div>}
       <div className="profile-container">
         <h1>My Profile</h1>
 
@@ -92,19 +95,21 @@ export default function Profile() {
 
         <div className="profile-section">
           <h2>Favorite Team</h2>
-          <select
-            value={selectedTeam || ''}
-            onChange={(e) => handleUpdateTeam(e.target.value ? parseInt(e.target.value) : null)}
+          <button
+            onClick={() => setShowTeamPicker(true)}
+            className="team-select-button"
             disabled={isSaving}
-            className="select-input"
           >
-            <option value="">Choose a team...</option>
-            {Object.entries(teams).map(([id, team]) => (
-              <option key={id} value={id}>
-                {team.name.charAt(0).toUpperCase() + team.name.slice(1)}
-              </option>
-            ))}
-          </select>
+            {selectedTeam && teams[selectedTeam]
+              ? (() => {
+                  const teamNameRaw = teams[selectedTeam]?.name ?? '';
+                  const teamName = teamNameRaw
+                    ? teamNameRaw.charAt(0).toUpperCase() + teamNameRaw.slice(1)
+                    : 'Unknown';
+                  return teamName;
+                })()
+              : 'Choose a team...'}
+          </button>
         </div>
 
         <div className="profile-section">
@@ -142,8 +147,6 @@ export default function Profile() {
           </div>
         </div>
 
-        {saved && <div className="saved-message">✓ Saved</div>}
-
         <div className="profile-actions">
           <button onClick={logout} disabled={isSaving} className="btn-secondary">
             Log Out
@@ -158,6 +161,14 @@ export default function Profile() {
         selectedPlayerId={selectedPlayer}
         onSelect={handleUpdatePlayer}
         onClose={() => setShowPlayerPicker(false)}
+      />
+
+      <TeamPickerModal
+        isOpen={showTeamPicker}
+        teams={teams}
+        selectedTeamId={selectedTeam}
+        onSelect={handleUpdateTeam}
+        onClose={() => setShowTeamPicker(false)}
       />
     </div>
   );
