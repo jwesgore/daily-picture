@@ -4,6 +4,9 @@ import { supabase } from '../supabaseClient';
 export interface User {
   id: string;
   username: string;
+  display_name?: string;
+  bio?: string;
+  avatar_url?: string;
   favorite_color?: string;
   favorite_player_id?: number;
   favorite_team_id?: number;
@@ -15,7 +18,8 @@ interface UserContextType {
   isLoading: boolean;
   login: (username: string, password: string) => Promise<void>;
   signup: (username: string, password: string) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
+  updateProfile: (updates: Partial<User>) => Promise<void>;
   updateFavorites: (teamId?: number | null, playerId?: number | null, color?: string) => Promise<void>;
 }
 
@@ -25,46 +29,59 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Initialize from localStorage on mount
+  // Initialize auth session on mount
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
+    const initAuth = async () => {
       try {
-        setUser(JSON.parse(storedUser));
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+          await loadUserProfile(userId);
+        }
       } catch (e) {
-        console.error('Failed to parse stored user');
+        console.error('Failed to initialize auth:', e);
+      } finally {
+        setIsLoading(false);
       }
-    }
-    setIsLoading(false);
+    };
+
+    initAuth();
   }, []);
 
-  const login = async (username: string, password: string) => {
+  const loadUserProfile = async (userId: string) => {
     const { data, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', userId)
+      .single();
+
+    if (error) {
+      console.error('Failed to load user profile:', error);
+      return;
+    }
+
+    setUser(data);
+  };
+
+  const login = async (username: string, password: string) => {
+    // Query for user by username
+    const { data: users, error: queryError } = await supabase
       .from('users')
       .select('*')
       .eq('username', username)
       .single();
 
-    if (error || !data) {
+    if (queryError || !users) {
       throw new Error('Invalid username or password');
     }
 
-    // In production, use bcrypt to compare passwords
-    if (data.password !== password) {
+    // Verify password (in production, use proper password hashing like bcrypt)
+    if (users.password !== password) {
       throw new Error('Invalid username or password');
     }
 
-    const userData: User = {
-      id: data.id,
-      username: data.username,
-      favorite_color: data.favorite_color,
-      favorite_player_id: data.favorite_player_id,
-      favorite_team_id: data.favorite_team_id,
-      profile_picture_url: data.profile_picture_url,
-    };
-
-    setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
+    // Store user session
+    localStorage.setItem('userId', users.id);
+    setUser(users);
   };
 
   const signup = async (username: string, password: string) => {
@@ -79,32 +96,45 @@ export function UserProvider({ children }: { children: ReactNode }) {
       throw new Error('Username already taken');
     }
 
-    const { data, error } = await supabase
+    // Create new user
+    const { data: newUser, error: createError } = await supabase
       .from('users')
-      .insert([{ username, password }])
+      .insert([
+        {
+          username,
+          password,
+          display_name: username,
+        },
+      ])
       .select()
       .single();
 
-    if (error || !data) {
+    if (createError || !newUser) {
       throw new Error('Failed to create account');
     }
 
-    const userData: User = {
-      id: data.id,
-      username: data.username,
-      favorite_color: data.favorite_color,
-      favorite_player_id: data.favorite_player_id,
-      favorite_team_id: data.favorite_team_id,
-      profile_picture_url: data.profile_picture_url,
-    };
-
-    setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
+    // Store user session
+    localStorage.setItem('userId', newUser.id);
+    setUser(newUser);
   };
 
-  const logout = () => {
+  const logout = async () => {
+    localStorage.removeItem('userId');
     setUser(null);
-    localStorage.removeItem('user');
+  };
+
+  const updateProfile = async (updates: Partial<User>) => {
+    if (!user) return;
+
+    const { error } = await supabase
+      .from('users')
+      .update(updates)
+      .eq('id', user.id);
+
+    if (error) throw error;
+
+    const updatedUser = { ...user, ...updates } as User;
+    setUser(updatedUser);
   };
 
   const updateFavorites = async (teamId?: number | null, playerId?: number | null, color?: string) => {
@@ -122,13 +152,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
     if (error) throw error;
 
-    const updatedUser = { ...user, ...updates };
+    const updatedUser = { ...user, ...updates } as User;
     setUser(updatedUser);
-    localStorage.setItem('user', JSON.stringify(updatedUser));
   };
 
   return (
-    <UserContext.Provider value={{ user, isLoading, login, signup, logout, updateFavorites }}>
+    <UserContext.Provider value={{ user, isLoading, login, signup, logout, updateProfile, updateFavorites }}>
       {children}
     </UserContext.Provider>
   );

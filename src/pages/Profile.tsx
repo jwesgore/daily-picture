@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/UserContext';
 import { useSupabaseData } from '../hooks/useSupabaseData';
+import { loadTeamDataById, getPlayerPhotoThumb } from '../utils/teamData';
 import Auth from '../components/Auth';
 import PlayerPickerModal from '../components/PlayerPickerModal.tsx';
 import TeamPickerModal from '../components/TeamPickerModal.tsx';
@@ -18,15 +19,19 @@ const BORDER_COLORS = [
 ];
 
 export default function Profile() {
-  const { user, logout, updateFavorites, isLoading: authLoading } = useAuth();
+  const { user, logout, updateProfile, updateFavorites, isLoading: authLoading } = useAuth();
   const { data } = useSupabaseData();
   const [selectedTeam, setSelectedTeam] = useState<number | null>(null);
   const [selectedPlayer, setSelectedPlayer] = useState<number | null>(null);
   const [selectedColor, setSelectedColor] = useState<string>('#0066cc');
   const [isSaving, setIsSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [playerPhoto, setPlayerPhoto] = useState<string | null>(null);
   const [showTeamPicker, setShowTeamPicker] = useState(false);
   const [showPlayerPicker, setShowPlayerPicker] = useState(false);
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [displayName, setDisplayName] = useState('');
+  const [bio, setBio] = useState('');
 
   const teams = data?.teams ?? {};
   const players = data?.players ?? {};
@@ -36,8 +41,36 @@ export default function Profile() {
       setSelectedTeam(user.favorite_team_id || null);
       setSelectedPlayer(user.favorite_player_id || null);
       setSelectedColor(user.favorite_color || '#0066cc');
+      setDisplayName(user.display_name || '');
+      setBio(user.bio || '');
     }
   }, [user]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadPhoto = async () => {
+      if (!selectedPlayer) {
+        setPlayerPhoto(null);
+        return;
+      }
+      const player = players[selectedPlayer];
+      if (!player) {
+        setPlayerPhoto(null);
+        return;
+      }
+      const teamData = await loadTeamDataById(player.team_id);
+      if (cancelled) return;
+      const thumb = getPlayerPhotoThumb(teamData, selectedPlayer);
+      setPlayerPhoto(thumb);
+    };
+
+    loadPhoto();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [players, selectedPlayer]);
 
   if (authLoading) {
     return <div className="profile-loading">Loading...</div>;
@@ -83,14 +116,46 @@ export default function Profile() {
     }
   };
 
+  const handleSaveProfile = async () => {
+    setIsSaving(true);
+    try {
+      await updateProfile({
+        display_name: displayName.trim() || null,
+        bio: bio.trim() || null,
+      });
+      setIsEditingProfile(false);
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setDisplayName(user?.display_name || '');
+    setBio(user?.bio || '');
+    setIsEditingProfile(false);
+  };
+
   return (
     <div className="profile-page">
       {saved && <div className="saved-banner">✓ Saved</div>}
       <div className="profile-container">
-        <h1>My Profile</h1>
-
-        <div className="profile-section">
-          <p className="username">Username: <strong>{user.username}</strong></p>
+        <div className="profile-header">
+          <div className="profile-avatar" aria-label="Profile picture">
+            {playerPhoto ? (
+              <img src={playerPhoto} alt="Favorite animal" />
+            ) : (
+              <span>{user.display_name?.[0]?.toUpperCase() ?? 'U'}</span>
+            )}
+          </div>
+          <div>
+            <h1>My Profile</h1>
+            <div className="profile-info">
+              <p className="display-name">{user.display_name || 'No display name set'}</p>
+              {user.bio && <p className="bio">{user.bio}</p>}
+            </div>
+          </div>
         </div>
 
         <div className="profile-section">
