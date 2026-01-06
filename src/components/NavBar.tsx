@@ -11,8 +11,8 @@ const NavBar: React.FC = () => {
 
   // Memoize the key to prevent effect re-runs on object reference changes
   const avatarKey = useMemo(
-    () => `${user?.favorite_team_id}|${user?.favorite_player_id}|${user?.profile_picture_url}`,
-    [user?.favorite_team_id, user?.favorite_player_id, user?.profile_picture_url]
+    () => `${user?.favorite_team_id}|${user?.favorite_player_id}|${user?.avatar_url}`,
+    [user?.favorite_team_id, user?.favorite_player_id, user?.avatar_url]
   )
 
   useEffect(() => {
@@ -20,17 +20,17 @@ const NavBar: React.FC = () => {
 
     const loadAvatar = async () => {
       if (!user || !user.favorite_team_id || !user.favorite_player_id) {
-        setAvatarUrl(user?.profile_picture_url ?? null)
+        setAvatarUrl(user?.avatar_url ?? null)
         return
       }
       try {
         const teamData = await loadTeamDataById(user.favorite_team_id)
         if (cancelled) return
         const thumb = getPlayerPhotoThumb(teamData, user.favorite_player_id)
-        setAvatarUrl(thumb ?? user.profile_picture_url ?? null)
+        setAvatarUrl(thumb ?? user.avatar_url ?? null)
       } catch (err) {
         if (!cancelled) {
-          setAvatarUrl(user?.profile_picture_url ?? null)
+          setAvatarUrl(user?.avatar_url ?? null)
         }
       }
     }

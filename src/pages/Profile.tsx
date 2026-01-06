@@ -19,7 +19,7 @@ const BORDER_COLORS = [
 ];
 
 export default function Profile() {
-  const { user, logout, updateProfile, updateFavorites, isLoading: authLoading } = useAuth();
+  const { user, logout, updateFavorites, isLoading: authLoading } = useAuth();
   const { data } = useSupabaseData();
   const [selectedTeam, setSelectedTeam] = useState<number | null>(null);
   const [selectedPlayer, setSelectedPlayer] = useState<number | null>(null);
@@ -29,9 +29,6 @@ export default function Profile() {
   const [playerPhoto, setPlayerPhoto] = useState<string | null>(null);
   const [showTeamPicker, setShowTeamPicker] = useState(false);
   const [showPlayerPicker, setShowPlayerPicker] = useState(false);
-  const [isEditingProfile, setIsEditingProfile] = useState(false);
-  const [displayName, setDisplayName] = useState('');
-  const [bio, setBio] = useState('');
 
   const teams = data?.teams ?? {};
   const players = data?.players ?? {};
@@ -41,8 +38,6 @@ export default function Profile() {
       setSelectedTeam(user.favorite_team_id || null);
       setSelectedPlayer(user.favorite_player_id || null);
       setSelectedColor(user.favorite_color || '#0066cc');
-      setDisplayName(user.display_name || '');
-      setBio(user.bio || '');
     }
   }, [user]);
 
@@ -116,27 +111,6 @@ export default function Profile() {
     }
   };
 
-  const handleSaveProfile = async () => {
-    setIsSaving(true);
-    try {
-      await updateProfile({
-        display_name: displayName.trim() || null,
-        bio: bio.trim() || null,
-      });
-      setIsEditingProfile(false);
-      setSaved(true);
-      setTimeout(() => setSaved(false), 3000);
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  const handleCancelEdit = () => {
-    setDisplayName(user?.display_name || '');
-    setBio(user?.bio || '');
-    setIsEditingProfile(false);
-  };
-
   return (
     <div className="profile-page">
       {saved && <div className="saved-banner">✓ Saved</div>}
@@ -146,15 +120,12 @@ export default function Profile() {
             {playerPhoto ? (
               <img src={playerPhoto} alt="Favorite animal" />
             ) : (
-              <span>{user.display_name?.[0]?.toUpperCase() ?? 'U'}</span>
+              <span>{user.username?.[0]?.toUpperCase() ?? 'U'}</span>
             )}
           </div>
           <div>
             <h1>My Profile</h1>
-            <div className="profile-info">
-              <p className="display-name">{user.display_name || 'No display name set'}</p>
-              {user.bio && <p className="bio">{user.bio}</p>}
-            </div>
+            <p className="username">Username: <strong>{user.username}</strong></p>
           </div>
         </div>
 

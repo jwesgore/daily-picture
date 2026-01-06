@@ -1,18 +1,15 @@
--- Create users table
-CREATE TABLE IF NOT EXISTS users (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  username VARCHAR(255) NOT NULL UNIQUE,
-  password VARCHAR(255) NOT NULL,
-  display_name VARCHAR(255),
-  bio TEXT,
-  avatar_url VARCHAR(500),
-  favorite_team_id INT,
-  favorite_player_id INT,
-  favorite_color VARCHAR(7) DEFAULT '#0066cc',
-  profile_picture_url VARCHAR(500),
-  created_at TIMESTAMP DEFAULT NOW(),
-  updated_at TIMESTAMP DEFAULT NOW()
-);
+create table public.users (
+  id uuid not null default gen_random_uuid (),
+  username character varying(255) not null,
+  password character varying(255) not null,
+  avatar_url character varying(500) null,
+  favorite_team_id integer null,
+  favorite_player_id integer null,
+  favorite_color character varying(7) null default '#0066cc'::character varying,
+  created_at timestamp without time zone null default now(),
+  updated_at timestamp without time zone null default now(),
+  constraint users_pkey primary key (id),
+  constraint users_username_key unique (username)
+) TABLESPACE pg_default;
 
--- Create index on username for faster lookups
-CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
+create index IF not exists idx_users_username on public.users using btree (username) TABLESPACE pg_default;

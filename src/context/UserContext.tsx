@@ -4,13 +4,13 @@ import { supabase } from '../supabaseClient';
 export interface User {
   id: string;
   username: string;
-  display_name?: string;
-  bio?: string;
-  avatar_url?: string;
-  favorite_color?: string;
-  favorite_player_id?: number;
-  favorite_team_id?: number;
-  profile_picture_url?: string;
+  password: string;
+  avatar_url: string | null;
+  favorite_team_id: number | null;
+  favorite_player_id: number | null;
+  favorite_color: string | null;
+  created_at: string | null;
+  updated_at: string | null;
 }
 
 interface UserContextType {
@@ -19,14 +19,16 @@ interface UserContextType {
   login: (username: string, password: string) => Promise<void>;
   signup: (username: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
-  updateProfile: (updates: Partial<User>) => Promise<void>;
   updateFavorites: (teamId?: number | null, playerId?: number | null, color?: string) => Promise<void>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(() => {
+    const cached = localStorage.getItem('user');
+    return cached ? JSON.parse(cached) : null;
+  });
   const [isLoading, setIsLoading] = useState(true);
 
   // Initialize auth session on mount
@@ -60,6 +62,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
 
     setUser(data);
+    localStorage.setItem('user', JSON.stringify(data));
   };
 
   const login = async (username: string, password: string) => {
@@ -80,6 +83,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
 
     // Store user session
+    localStorage.setItem('user', JSON.stringify(users));
     localStorage.setItem('userId', users.id);
     setUser(users);
   };
@@ -101,7 +105,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
       .from('users')
       .insert([
         {
-          username,
           password,
           display_name: username,
         },
@@ -115,26 +118,14 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
     // Store user session
     localStorage.setItem('userId', newUser.id);
+    localStorage.setItem('user', JSON.stringify(newUser));
     setUser(newUser);
   };
 
   const logout = async () => {
     localStorage.removeItem('userId');
+    localStorage.removeItem('user');
     setUser(null);
-  };
-
-  const updateProfile = async (updates: Partial<User>) => {
-    if (!user) return;
-
-    const { error } = await supabase
-      .from('users')
-      .update(updates)
-      .eq('id', user.id);
-
-    if (error) throw error;
-
-    const updatedUser = { ...user, ...updates } as User;
-    setUser(updatedUser);
   };
 
   const updateFavorites = async (teamId?: number | null, playerId?: number | null, color?: string) => {
@@ -154,10 +145,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
     const updatedUser = { ...user, ...updates } as User;
     setUser(updatedUser);
+    localStorage.setItem('user', JSON.stringify(updatedUser));
   };
 
   return (
-    <UserContext.Provider value={{ user, isLoading, login, signup, logout, updateProfile, updateFavorites }}>
+    <UserContext.Provider value={{ user, isLoading, login, signup, logout, updateFavorites }}>
       {children}
     </UserContext.Provider>
   );
