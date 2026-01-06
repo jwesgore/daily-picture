@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/UserContext';
 import { useSupabaseData } from '../hooks/useSupabaseData';
+import { loadTeamDataById, getPlayerPhotoThumb } from '../utils/teamData';
 import Auth from '../components/Auth';
 import PlayerPickerModal from '../components/PlayerPickerModal.tsx';
 import TeamPickerModal from '../components/TeamPickerModal.tsx';
@@ -41,6 +42,8 @@ export default function Profile() {
       await updateFavorites(teamId, undefined);
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
+    } catch (error) {
+      console.error('Failed to update team:', error);
     } finally {
       setIsSaving(false);
     }
@@ -61,6 +64,8 @@ export default function Profile() {
       await updateFavorites(undefined, playerId, thumbUrl);
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
+    } catch (error) {
+      console.error('Failed to update player:', error);
     } finally {
       setIsSaving(false);
     }
