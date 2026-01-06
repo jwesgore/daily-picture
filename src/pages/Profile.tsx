@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../context/UserContext';
 import { useSupabaseData } from '../hooks/useSupabaseData';
 import Auth from '../components/Auth';
+import PlayerPickerModal from '../components/PlayerPickerModal';
 import './Profile.css';
 
 const BORDER_COLORS = [
@@ -23,6 +24,7 @@ export default function Profile() {
   const [selectedColor, setSelectedColor] = useState<string>('#0066cc');
   const [isSaving, setIsSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [showPlayerPicker, setShowPlayerPicker] = useState(false);
 
   const teams = data?.teams ?? {};
   const players = data?.players ?? {};
@@ -107,19 +109,21 @@ export default function Profile() {
 
         <div className="profile-section">
           <h2>Favorite Player</h2>
-          <select
-            value={selectedPlayer || ''}
-            onChange={(e) => handleUpdatePlayer(e.target.value ? parseInt(e.target.value) : null)}
+          <button
+            onClick={() => setShowPlayerPicker(true)}
+            className="player-select-button"
             disabled={isSaving}
-            className="select-input"
           >
-            <option value="">Choose a player...</option>
-            {Object.entries(players).map(([id, player]) => (
-              <option key={id} value={id}>
-                {player.name} ({teams[player.team_id]?.name.charAt(0).toUpperCase() + teams[player.team_id]?.name.slice(1) || 'Unknown'})
-              </option>
-            ))}
-          </select>
+            {selectedPlayer && players[selectedPlayer]
+              ? (() => {
+                  const teamNameRaw = teams[players[selectedPlayer].team_id]?.name ?? '';
+                  const teamName = teamNameRaw
+                    ? teamNameRaw.charAt(0).toUpperCase() + teamNameRaw.slice(1)
+                    : 'Unknown';
+                  return `${players[selectedPlayer].name} (${teamName})`;
+                })()
+              : 'Choose a player...'}
+          </button>
         </div>
 
         <div className="profile-section">
@@ -146,6 +150,15 @@ export default function Profile() {
           </button>
         </div>
       </div>
+
+      <PlayerPickerModal
+        isOpen={showPlayerPicker}
+        players={players}
+        teams={teams}
+        selectedPlayerId={selectedPlayer}
+        onSelect={handleUpdatePlayer}
+        onClose={() => setShowPlayerPicker(false)}
+      />
     </div>
   );
 }
