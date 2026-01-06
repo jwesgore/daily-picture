@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useAuth } from '../context/UserContext'
 import './NavBar.css'
 
 const NavBar: React.FC = () => {
   const [open, setOpen] = useState(false)
+  const { user } = useAuth()
 
   return (
     <nav className="navbar">
@@ -25,6 +28,9 @@ const NavBar: React.FC = () => {
         <li><a href="/teams">Meet the Teams</a></li>
         <li><a href="/scoreboard">Scoreboard</a></li>
         <li><a href="/about">About</a></li>
+        <li>
+          <Link to="/profile">Sign In</Link>
+        </li>
       </ul>
     </nav>
   )
