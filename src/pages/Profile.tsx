@@ -1,32 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/UserContext';
 import { useSupabaseData } from '../hooks/useSupabaseData';
-import { loadTeamDataById, getPlayerPhotoThumb } from '../utils/teamData';
 import Auth from '../components/Auth';
 import PlayerPickerModal from '../components/PlayerPickerModal.tsx';
 import TeamPickerModal from '../components/TeamPickerModal.tsx';
 import './Profile.css';
-
-const BORDER_COLORS = [
-  { name: 'Blue', value: '#0066cc' },
-  { name: 'Purple', value: '#764ba2' },
-  { name: 'Pink', value: '#ff4757' },
-  { name: 'Green', value: '#4caf50' },
-  { name: 'Orange', value: '#ff9500' },
-  { name: 'Red', value: '#d32f2f' },
-  { name: 'Teal', value: '#00897b' },
-  { name: 'Gold', value: '#ffc107' },
-];
 
 export default function Profile() {
   const { user, logout, updateFavorites, isLoading: authLoading } = useAuth();
   const { data } = useSupabaseData();
   const [selectedTeam, setSelectedTeam] = useState<number | null>(null);
   const [selectedPlayer, setSelectedPlayer] = useState<number | null>(null);
-  const [selectedColor, setSelectedColor] = useState<string>('#0066cc');
   const [isSaving, setIsSaving] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [playerPhoto, setPlayerPhoto] = useState<string | null>(null);
   const [showTeamPicker, setShowTeamPicker] = useState(false);
   const [showPlayerPicker, setShowPlayerPicker] = useState(false);
 
@@ -37,35 +23,8 @@ export default function Profile() {
     if (user) {
       setSelectedTeam(user.favorite_team_id || null);
       setSelectedPlayer(user.favorite_player_id || null);
-      setSelectedColor(user.favorite_color || '#0066cc');
     }
   }, [user]);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    const loadPhoto = async () => {
-      if (!selectedPlayer) {
-        setPlayerPhoto(null);
-        return;
-      }
-      const player = players[selectedPlayer];
-      if (!player) {
-        setPlayerPhoto(null);
-        return;
-      }
-      const teamData = await loadTeamDataById(player.team_id);
-      if (cancelled) return;
-      const thumb = getPlayerPhotoThumb(teamData, selectedPlayer);
-      setPlayerPhoto(thumb);
-    };
-
-    loadPhoto();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [players, selectedPlayer]);
 
   if (authLoading) {
     return <div className="profile-loading">Loading...</div>;
@@ -99,19 +58,7 @@ export default function Profile() {
           thumbUrl = getPlayerPhotoThumb(teamData, playerId);
         }
       }
-      await updateFavorites(undefined, playerId, undefined, thumbUrl);
-      setSaved(true);
-      setTimeout(() => setSaved(false), 3000);
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  const handleUpdateColor = async (color: string) => {
-    setSelectedColor(color);
-    setIsSaving(true);
-    try {
-      await updateFavorites(undefined, undefined, color);
+      await updateFavorites(undefined, playerId, thumbUrl);
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     } finally {
@@ -125,8 +72,8 @@ export default function Profile() {
       <div className="profile-container">
         <div className="profile-header">
           <div className="profile-avatar" aria-label="Profile picture">
-            {playerPhoto ? (
-              <img src={playerPhoto} alt="Favorite animal" />
+            {user.avatar_url ? (
+              <img src={user.avatar_url} alt="Favorite animal" />
             ) : (
               <span>{user.username?.[0]?.toUpperCase() ?? 'U'}</span>
             )}
@@ -173,22 +120,6 @@ export default function Profile() {
                 })()
               : 'Choose a player...'}
           </button>
-        </div>
-
-        <div className="profile-section">
-          <h2>Profile Border Color</h2>
-          <div className="color-picker">
-            {BORDER_COLORS.map((color) => (
-              <button
-                key={color.value}
-                className={`color-option ${selectedColor === color.value ? 'selected' : ''}`}
-                style={{ backgroundColor: color.value }}
-                onClick={() => handleUpdateColor(color.value)}
-                disabled={isSaving}
-                title={color.name}
-              />
-            ))}
-          </div>
         </div>
 
         <div className="profile-actions">
