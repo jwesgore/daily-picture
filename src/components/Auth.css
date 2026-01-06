@@ -55,6 +55,27 @@
   cursor: not-allowed;
 }
 
+.password-requirements {
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.requirement {
+  color: #d32f2f;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.requirement.met {
+  color: #4caf50;
+}
+
 .error-message {
   background-color: #ffebee;
   color: #c62828;
