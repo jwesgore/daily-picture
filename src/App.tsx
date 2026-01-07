@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { UserProvider } from './context/UserContext'
-import NavBar from './components/NavBar'
+import NavBar from './components/nav/NavBar'
 import Home from './pages/Home'
 import Teams from './pages/Teams'
 import TeamPage from './components/Teams/TeamPage'

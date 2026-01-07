@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { useSupabaseData } from "../hooks/useSupabaseData";
+import { useSupabaseData } from "../hooks/queries/useSupabaseData";
 import { RANK_POINTS } from "../constants";
 import type { PlayerStats, TeamStats } from "../types";
-import "./Scoreboard.css";
+import "./styles/Scoreboard.css";
 
 export default function Scoreboard() {
   const { data, isLoading, error } = useSupabaseData();

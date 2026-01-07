@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import type { Player, Team, TeamData } from '../types';
-import { loadTeamDataById, getPlayerPhotoThumb } from '../utils/teamData';
+import type { Player, Team, TeamData } from '../../types';
+import { loadTeamDataById, getPlayerPhotoThumb } from '../../utils/teamData';
 import './PlayerPickerModal.css';
 
 interface PlayerPickerModalProps {

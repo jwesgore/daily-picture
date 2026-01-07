@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useAuth } from '../context/UserContext';
-import { validatePassword, isPasswordValid } from '../utils/passwordValidator';
+import { useAuth } from '../../context/UserContext';
+import { validatePassword, isPasswordValid } from '../../utils/passwordValidator';
 import './Auth.css';
 
 interface AuthProps {

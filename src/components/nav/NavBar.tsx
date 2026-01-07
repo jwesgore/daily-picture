@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useAuth } from '../context/UserContext'
-import './NavBar.css'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/UserContext';
+import './NavBar.css';
 
 const NavBar: React.FC = () => {
-  const [open, setOpen] = useState(false)
-  const { user } = useAuth()
+  const [open, setOpen] = useState(false);
+  const { user } = useAuth();
 
   return (
     <nav className="navbar">
       <div className="navbar__brand">
-        <a href="/">Daily Picture</a> 
+        <a href="/">Daily Picture</a>
       </div>
 
       <button
@@ -43,7 +43,7 @@ const NavBar: React.FC = () => {
         </li>
       </ul>
     </nav>
-  )
-}
+  );
+};
 
-export default NavBar
+export default NavBar;

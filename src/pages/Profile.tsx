@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/UserContext';
-import { useSupabaseData } from '../hooks/useSupabaseData';
+import { useSupabaseData } from '../hooks/queries/useSupabaseData';
 import { loadTeamDataById, getPlayerPhotoThumb } from '../utils/teamData';
-import Auth from '../components/Auth';
-import PlayerPickerModal from '../components/PlayerPickerModal.tsx';
-import TeamPickerModal from '../components/TeamPickerModal.tsx';
-import './Profile.css';
+import Auth from '../components/auth/Auth';
+import PlayerPickerModal from '../components/modals/PlayerPickerModal';
+import TeamPickerModal from '../components/modals/TeamPickerModal';
+import './styles/Profile.css';
 
 export default function Profile() {
   const { user, logout, updateFavorites, isLoading: authLoading } = useAuth();

@@ -9,7 +9,7 @@ import {
   usePlayerMatches,
   useTeamData,
   usePrefetchPlayer
-} from '../../hooks/usePlayerQueries';
+} from '../../hooks/queries/usePlayerQueries';
 import './PlayerPage.css';
 
 export default function PlayerPage() {

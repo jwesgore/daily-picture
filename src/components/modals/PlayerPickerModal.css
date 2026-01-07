@@ -115,11 +115,14 @@
 .player-picker-avatar-fallback {
   display: inline-flex;
   align-items: center;
-  justify-content: center;7a9eff 0%, #5b7fd9 100%);
+  justify-content: center;
+  background: linear-gradient(135deg, #7a9eff 0%, #5b7fd9 100%);
   color: white;
-  font-size: 2
   font-size: 1.5rem;
   font-weight: 700;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
 }
 
 .player-picker-card-body {
@@ -128,17 +131,16 @@
   gap: 0.2rem;
 }
 
-.player-picker-700;
+.player-picker-item-name {
   font-size: 0.95rem;
   color: #1f2d3d;
-  line-height: 1.300;
-  color: #1f2d3d;
-}85rem;
-  color: #6b7684;
-  font-weight: 500
+  font-weight: 700;
+}
+
 .player-picker-item-team {
   font-size: 0.9rem;
   color: #4f5b6b;
+  font-weight: 500;
 }
 
 .player-picker-item-checkmark {

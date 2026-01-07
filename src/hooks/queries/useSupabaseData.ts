@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "../supabaseClient";
-import type { Player, Team, Match } from "../types";
+import { supabase } from "../../supabaseClient";
+import type { Player, Team, Match } from "../../types";
 
 export type SupabaseData = {
   players: Record<number, Player>;
@@ -21,9 +21,7 @@ function getMillisecondsUntilMidnightUTC(): number {
 }
 
 /**
- * Custom hook to fetch all Supabase data (players, teams, matches)
- * Returns data in a normalized format with players and teams as lookup objects
- * Caches until midnight UTC since data only changes daily
+ * Fetch all Supabase data (players, teams, matches) and cache until midnight UTC.
  */
 export function useSupabaseData() {
   return useQuery({
@@ -47,7 +45,6 @@ export function useSupabaseData() {
 
       if (teamsError) throw teamsError;
 
-      // Normalize data into lookup objects
       const playersMap: Record<number, Player> = {};
       playersData?.forEach((p: Player) => {
         playersMap[p.id] = p;
@@ -70,8 +67,7 @@ export function useSupabaseData() {
 }
 
 /**
- * Custom hook to fetch matches for a specific date
- * Caches until midnight UTC since data only changes daily
+ * Fetch matches for a specific date and related players/teams; cache until midnight UTC.
  */
 export function useMatchesByDate(date: string) {
   return useQuery({

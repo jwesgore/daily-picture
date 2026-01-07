@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '../supabaseClient';
-import { loadTeamDataById } from '../utils/teamData';
-import type { Player, Team, Match } from '../types';
+import { supabase } from '../../supabaseClient';
+import { loadTeamDataById } from '../../utils/teamData';
+import type { Player, Team, Match } from '../../types';
 
 export function usePlayerData(playerIdNum: number) {
   return useQuery({

@@ -60,7 +60,7 @@ export default function TeamPage() {
       const id = parseInt(playerId);
       const player = players[id];
       if (player) {
-        const memberData = teamData.teamMembers?.[playerId];
+        const memberData = teamData.teamMembers?.[id];
         playerStats[id] = {
           id,
           name: player.name,

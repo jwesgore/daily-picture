@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useMatchesByDate } from "../hooks/useSupabaseData";
+import { useMatchesByDate } from "../hooks/queries/useSupabaseData";
 import { loadTeamDataById, getPlayerPhoto } from "../utils/teamData";
 import { RANK_LABELS, RANK_ORDER } from "../constants";
 import type { Match } from "../types";
