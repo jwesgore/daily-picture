@@ -45,33 +45,20 @@ export default function Home() {
   }, [sortedMatches]);
 
   useEffect(() => {
-    let cancelled = false;
+    if (!championId) {
+      setChampionImageSrc(null);
+      return;
+    }
 
-    const loadChampionImage = async () => {
-      if (!championId) {
-        setChampionImageSrc(null);
-        return;
-      }
+    const championPlayer = players[championId];
+    if (!championPlayer) {
+      setChampionImageSrc(null);
+      return;
+    }
 
-      const championPlayer = players[championId];
-      if (!championPlayer) {
-        setChampionImageSrc(null);
-        return;
-      }
-
-      const teamData = await loadTeamDataById(championPlayer.team_id);
-      const photo = getPlayerPhoto(teamData, championId);
-      
-      if (!cancelled) {
-        setChampionImageSrc(photo);
-      }
-    };
-
-    loadChampionImage();
-
-    return () => {
-      cancelled = true;
-    };
+    const teamData = loadTeamDataById(championPlayer.team_id);
+    const photo = getPlayerPhoto(teamData, championId);
+    setChampionImageSrc(photo);
   }, [championId, players]);
 
   return (

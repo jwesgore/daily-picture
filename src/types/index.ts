@@ -33,9 +33,9 @@ export type TeamData = {
   background: string;
   backgroundCredit: string;
   teamName: string;
-  teamId: string;
+  teamId: number;
   bio: string;
-  teamMembers: Record<string, TeamMemberData>;
+  teamMembers: Record<number, TeamMemberData>;
 };
 
 // Statistics types

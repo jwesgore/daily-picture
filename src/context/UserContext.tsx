@@ -4,7 +4,6 @@ import { supabase } from '../supabaseClient';
 export interface User {
   id: string;
   username: string;
-  password: string;
   avatar_url: string | null;
   favorite_team_id: number | null;
   favorite_player_id: number | null;
@@ -30,13 +29,21 @@ export function UserProvider({ children }: { children: ReactNode }) {
   });
   const [isLoading, setIsLoading] = useState(true);
 
-  // Initialize auth session on mount
   useEffect(() => {
     const initAuth = async () => {
       try {
-        const userId = localStorage.getItem('userId');
-        if (userId) {
-          await loadUserProfile(userId);
+        const {
+          data: { session },
+          error,
+        } = await supabase.auth.getSession();
+
+        if (error) {
+          console.error('Failed to initialize auth session:', error);
+        }
+
+        const sessionUserId = session?.user?.id ?? localStorage.getItem('userId');
+        if (sessionUserId) {
+          await loadUserProfile(sessionUserId);
         }
       } catch (e) {
         console.error('Failed to initialize auth:', e);
@@ -45,8 +52,27 @@ export function UserProvider({ children }: { children: ReactNode }) {
       }
     };
 
+    const { data: subscription } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+      const nextUserId = nextSession?.user?.id;
+      if (nextUserId) {
+        loadUserProfile(nextUserId);
+      } else {
+        clearCachedUser();
+      }
+    });
+
     initAuth();
+
+    return () => {
+      subscription?.subscription.unsubscribe();
+    };
   }, []);
+
+  const clearCachedUser = () => {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('user');
+    setUser(null);
+  };
 
   const loadUserProfile = async (userId: string) => {
     const { data, error } = await supabase
@@ -62,75 +88,80 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
     setUser(data);
     localStorage.setItem('user', JSON.stringify(data));
+    localStorage.setItem('userId', data.id);
   };
 
   const login = async (username: string, password: string) => {
-    // Query for user by username
-    const { data: users, error: queryError } = await supabase
-      .from('users')
-      .select('*')
-      .eq('username', username)
-      .single();
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: username,
+      password,
+    });
 
-    if (queryError || !users) {
-      throw new Error('Invalid username or password');
+    if (error) {
+      throw new Error(error.message);
     }
 
-    // Verify password (in production, use proper password hashing like bcrypt)
-    if (users.password !== password) {
-      throw new Error('Invalid username or password');
+    const authUserId = data.user?.id;
+    if (!authUserId) {
+      throw new Error('Unable to find user profile');
     }
 
-    // Store user session
-    localStorage.setItem('user', JSON.stringify(users));
-    localStorage.setItem('userId', users.id);
-    setUser(users);
+    await loadUserProfile(authUserId);
   };
 
   const signup = async (username: string, password: string) => {
-    // Check if username already exists
-    const { data: existingUser } = await supabase
-      .from('users')
-      .select('id')
-      .eq('username', username)
-      .single();
+    // Use Supabase Auth for credentials; username is used as the email identifier here.
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email: username,
+      password,
+      options: {
+        data: { username },
+      },
+    });
 
-    if (existingUser) {
-      throw new Error('Username already taken');
+    if (authError) {
+      throw new Error(authError.message);
     }
 
-    // Create new user
-    const { data: newUser, error: createError } = await supabase
+    const authUserId = authData.user?.id;
+    if (!authUserId) {
+      throw new Error('Failed to finalize account creation');
+    }
+
+    // Create profile row in public.users keyed to auth.users
+    const { data: profile, error: profileError } = await supabase
       .from('users')
-      .insert([
+      .upsert(
         {
-          password,
-          display_name: username,
+          id: authUserId,
+          username,
         },
-      ])
+        { onConflict: 'id' }
+      )
       .select()
       .single();
 
-    if (createError || !newUser) {
-      throw new Error('Failed to create account');
+    if (profileError || !profile) {
+      throw new Error('Failed to create user profile');
     }
 
-    // Store user session
-    localStorage.setItem('userId', newUser.id);
-    localStorage.setItem('user', JSON.stringify(newUser));
-    setUser(newUser);
+    localStorage.setItem('userId', profile.id);
+    localStorage.setItem('user', JSON.stringify(profile));
+    setUser(profile);
   };
 
   const logout = async () => {
-    localStorage.removeItem('userId');
-    localStorage.removeItem('user');
-    setUser(null);
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      throw new Error(error.message);
+    }
+    clearCachedUser();
   };
 
   const updateFavorites = async (teamId?: number | null, playerId?: number | null, avatarUrl?: string | null) => {
     if (!user) return;
 
-    const updates: any = {};
+    const updates: Partial<User> = {};
     if (teamId !== undefined) updates.favorite_team_id = teamId;
     if (playerId !== undefined) updates.favorite_player_id = playerId;
     if (avatarUrl !== undefined) updates.avatar_url = avatarUrl;

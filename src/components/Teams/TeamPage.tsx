@@ -19,8 +19,7 @@ export default function TeamPage() {
       setError(null);
 
       try {
-        // Fetch team data JSON
-        const data = await loadTeamDataByName(teamName || "");
+        const data = loadTeamDataByName(teamName || "");
         if (!data) throw new Error("Team not found");
         setTeamData(data);
 

@@ -57,7 +57,7 @@ export default function Profile() {
       if (playerId) {
         const player = players[playerId];
         if (player) {
-          const teamData = await loadTeamDataById(player.team_id);
+            const teamData = loadTeamDataById(player.team_id);
           thumbUrl = getPlayerPhotoThumb(teamData, playerId);
         }
       }

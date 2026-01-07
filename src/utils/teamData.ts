@@ -1,44 +1,19 @@
-import { TEAM_DATA_FILES } from "../constants";
+import { TEAM_DATA, TEAM_DATA_BY_NAME } from "../data/teamData";
 import type { TeamData } from "../types";
 
 /**
- * Loads team data from the JSON file for a given team ID
+ * Returns team data by numeric ID from the compiled models.
  */
-export async function loadTeamDataById(teamId: number): Promise<TeamData | null> {
-  const dataPath = TEAM_DATA_FILES[teamId];
-  if (!dataPath) {
-    console.error(`No data file found for team ID ${teamId}`);
-    return null;
-  }
-
-  try {
-    const response = await fetch(dataPath);
-    if (!response.ok) {
-      throw new Error(`Failed to load team data: ${response.statusText}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(`Error loading team data for team ${teamId}:`, error);
-    return null;
-  }
+export function loadTeamDataById(teamId: number): TeamData | null {
+  return TEAM_DATA[teamId] ?? null;
 }
 
 /**
- * Loads team data from the JSON file for a given team name
+ * Returns team data by team slug/name from the compiled models.
  */
-export async function loadTeamDataByName(teamName: string): Promise<TeamData | null> {
-  const dataPath = `/${teamName}/teamdata.json`;
-
-  try {
-    const response = await fetch(dataPath);
-    if (!response.ok) {
-      throw new Error(`Failed to load team data: ${response.statusText}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(`Error loading team data for team ${teamName}:`, error);
-    return null;
-  }
+export function loadTeamDataByName(teamName: string): TeamData | null {
+  const key = teamName.toLowerCase();
+  return TEAM_DATA_BY_NAME[key] ?? null;
 }
 
 /**
@@ -46,7 +21,7 @@ export async function loadTeamDataByName(teamName: string): Promise<TeamData | n
  */
 export function getPlayerPhoto(teamData: TeamData | null, playerId: number | string): string | null {
   if (!teamData) return null;
-  const memberData = teamData.teamMembers[String(playerId)];
+  const memberData = teamData.teamMembers[Number(playerId)];
   return memberData?.photo || null;
 }
 
@@ -55,7 +30,7 @@ export function getPlayerPhoto(teamData: TeamData | null, playerId: number | str
  */
 export function getPlayerPhotoThumb(teamData: TeamData | null, playerId: number | string): string | null {
   if (!teamData) return null;
-  const memberData = teamData.teamMembers[String(playerId)];
+  const memberData = teamData.teamMembers[Number(playerId)];
   return memberData?.photoThumb || null;
 }
 
@@ -64,6 +39,6 @@ export function getPlayerPhotoThumb(teamData: TeamData | null, playerId: number 
  */
 export function getPlayerPhotoCredit(teamData: TeamData | null, playerId: number | string): string | null {
   if (!teamData) return null;
-  const memberData = teamData.teamMembers[String(playerId)];
+  const memberData = teamData.teamMembers[Number(playerId)];
   return memberData?.photoCredit || null;
 }

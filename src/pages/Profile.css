@@ -20,7 +20,7 @@
 
 .profile-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 1rem;
   margin-bottom: 1.5rem;
 }
@@ -47,10 +47,14 @@
 }
 
 .profile-container h1 {
-  margin: 0 0 2rem;
-  text-align: center;
+  margin: 0;
+  text-align: left;
   color: #333;
-  font-size: 2rem;
+  font-size: 1.75rem;
+}
+
+.profile-header h1 {
+  line-height: 1.2;
 }
 
 .profile-info {
@@ -203,7 +207,7 @@
 
 .username {
   font-size: 1.1rem;
-  margin: 0;
+  margin: 0.25rem 0 0;
   color: #333;
 }
 

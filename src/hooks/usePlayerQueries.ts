@@ -81,10 +81,7 @@ export function usePlayerMatches(playerIdNum: number) {
 export function useTeamData(teamId: number | undefined) {
   return useQuery({
     queryKey: ['teamData', teamId],
-    queryFn: async () => {
-      if (!teamId) return null;
-      return await loadTeamDataById(teamId);
-    },
+    queryFn: () => (teamId ? loadTeamDataById(teamId) : null),
     enabled: !!teamId,
     placeholderData: (previousData) => previousData,
   });

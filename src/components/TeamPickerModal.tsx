@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import type { Team, TeamData } from '../types';
 import { loadTeamDataById } from '../utils/teamData';
 import './TeamPickerModal.css';
@@ -18,45 +18,14 @@ export default function TeamPickerModal({
   onSelect,
   onClose,
 }: TeamPickerModalProps) {
-  const [teamDataMap, setTeamDataMap] = useState<Record<number, TeamData | null>>({});
-  const [loadingTeams, setLoadingTeams] = useState(false);
-
-  useEffect(() => {
-    if (!isOpen) return;
+  const teamDataMap = useMemo<Record<number, TeamData | null>>(() => {
     const uniqueTeamIds = Object.keys(teams).map((id) => parseInt(id, 10));
-    let cancelled = false;
-
-    const loadAll = async () => {
-      setLoadingTeams(true);
-      const entries = await Promise.all(
-        uniqueTeamIds.map(async (teamId) => {
-          try {
-            const data = await loadTeamDataById(teamId);
-            return [teamId, data ?? null] as const;
-          } catch (err) {
-            console.error('Failed to load team data', teamId, err);
-            return [teamId, null] as const;
-          }
-        })
-      );
-      if (!cancelled) {
-        setTeamDataMap(Object.fromEntries(entries));
-        setLoadingTeams(false);
-      }
-    };
-
-    loadAll();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [isOpen, teams]);
+    return Object.fromEntries(uniqueTeamIds.map((teamId) => [teamId, loadTeamDataById(teamId)]));
+  }, [teams]);
 
   const teamEntries = useMemo(() => Object.entries(teams), [teams]);
 
   if (!isOpen) return null;
-
-  const gridClass = loadingTeams ? 'team-picker-grid loading' : 'team-picker-grid';
 
   return (
     <>
@@ -69,7 +38,7 @@ export default function TeamPickerModal({
           </button>
         </div>
 
-        <div className={gridClass}>
+        <div className="team-picker-grid">
           {teamEntries.length === 0 ? (
             <div className="team-picker-empty">No teams found</div>
           ) : (

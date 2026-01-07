@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import type { Player, Team, TeamData } from '../types';
 import { loadTeamDataById, getPlayerPhotoThumb } from '../utils/teamData';
 import './PlayerPickerModal.css';
@@ -20,45 +20,14 @@ export default function PlayerPickerModal({
   onSelect,
   onClose,
 }: PlayerPickerModalProps) {
-  const [teamDataMap, setTeamDataMap] = useState<Record<number, TeamData | null>>({});
-  const [loadingTeams, setLoadingTeams] = useState(false);
-
-  useEffect(() => {
-    if (!isOpen) return;
+  const teamDataMap = useMemo<Record<number, TeamData | null>>(() => {
     const uniqueTeamIds = Array.from(new Set(Object.values(players).map((p) => p.team_id)));
-    let cancelled = false;
-
-    const loadAll = async () => {
-      setLoadingTeams(true);
-      const entries = await Promise.all(
-        uniqueTeamIds.map(async (teamId) => {
-          try {
-            const data = await loadTeamDataById(teamId);
-            return [teamId, data ?? null] as const;
-          } catch (err) {
-            console.error('Failed to load team data', teamId, err);
-            return [teamId, null] as const;
-          }
-        })
-      );
-      if (!cancelled) {
-        setTeamDataMap(Object.fromEntries(entries));
-        setLoadingTeams(false);
-      }
-    };
-
-    loadAll();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [isOpen, players]);
+    return Object.fromEntries(uniqueTeamIds.map((teamId) => [teamId, loadTeamDataById(teamId)]));
+  }, [players]);
 
   const filteredPlayers = Object.entries(players);
 
   if (!isOpen) return null;
-
-  const gridClass = loadingTeams ? 'player-picker-grid loading' : 'player-picker-grid';
 
   return (
     <>
@@ -71,11 +40,9 @@ export default function PlayerPickerModal({
           </button>
         </div>
 
-        <div className={gridClass}>
+        <div className="player-picker-grid">
           {filteredPlayers.length === 0 ? (
-            <div className="player-picker-empty">
-              {loadingTeams ? 'Loading players...' : 'No players found'}
-            </div>
+            <div className="player-picker-empty">No players found</div>
           ) : (
             filteredPlayers.map(([id, player]) => {
               const playerId = parseInt(id, 10);

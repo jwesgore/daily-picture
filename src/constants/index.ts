@@ -1,15 +1,3 @@
-// Team data file paths
-export const TEAM_DATA_FILES: Record<number, string> = {
-  1: "/aqua/teamdata.json",
-  2: "/creature/teamdata.json",
-  3: "/diva/teamdata.json",
-  4: "/feathers/teamdata.json",
-  5: "/primate/teamdata.json",
-  6: "/scales/teamdata.json",
-  7: "/silly/teamdata.json",
-  8: "/smalls/teamdata.json",
-};
-
 // Points awarded for winning at each rank
 export const RANK_POINTS: Record<string, number> = {
   quarter: 1,
