@@ -77,3 +77,14 @@ export function onAuthChange(callback: (session: AuthSession | null) => void) {
   const { data } = supabase.auth.onAuthStateChange((_event, session) => callback(session));
   return data.subscription;
 }
+
+// Sign in using Google OAuth provider.
+export async function signInWithGoogle(): Promise<void> {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: `${window.location.origin}/auth/callback`,
+    },
+  });
+  if (error) throw new Error(error.message);
+}

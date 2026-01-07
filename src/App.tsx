@@ -8,6 +8,7 @@ import PlayerPage from './components/Players/PlayerPage'
 import Scoreboard from './pages/Scoreboard'
 import About from './pages/About'
 import Profile from './pages/Profile'
+import AuthCallback from './pages/AuthCallback'
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/scoreboard" element={<Scoreboard />} />
           <Route path="/about" element={<About />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/auth/callback" element={<AuthCallback />} />
         </Routes>
       </Router>
     </UserProvider>

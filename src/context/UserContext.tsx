@@ -9,11 +9,13 @@ export interface User {
   favorite_player_id: number | null;
   created_at: string | null;
   updated_at: string | null;
+  authProvider?: string;
 }
 
 interface UserContextType {
   user: User | null;
   isLoading: boolean;
+  authProvider: string | null;
   login: (username: string, password: string) => Promise<void>;
   signup: (username: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
@@ -26,6 +28,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(() => {
     const cached = localStorage.getItem('user');
     return cached ? JSON.parse(cached) : null;
+  });
+  const [authProvider, setAuthProvider] = useState<string | null>(() => {
+    return localStorage.getItem('authProvider');
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -71,10 +76,18 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const clearCachedUser = () => {
     localStorage.removeItem('userId');
     localStorage.removeItem('user');
+    localStorage.removeItem('authProvider');
     setUser(null);
+    setAuthProvider(null);
   };
 
   const loadUserProfile = async (userId: string) => {
+    const { data: authUser } = await supabase.auth.getUser();
+    // Check identities for OAuth providers, fallback to email
+    const identities = authUser.user?.identities || [];
+    const oauthIdentity = identities.find(identity => identity.provider !== 'email');
+    const provider = oauthIdentity?.provider || 'email';
+    
     const { data, error } = await supabase
       .from('users')
       .select('*')
@@ -82,13 +95,41 @@ export function UserProvider({ children }: { children: ReactNode }) {
       .single();
 
     if (error) {
+      // If user doesn't exist in public.users (e.g., first OAuth sign-in), create them
+      if (error.code === 'PGRST116') {
+        const username = authUser.user?.email?.split('@')[0] || `user_${userId.slice(0, 8)}`;
+        
+        const { data: newProfile, error: createError } = await supabase
+          .from('users')
+          .insert({
+            id: userId,
+            username,
+          })
+          .select()
+          .single();
+
+        if (createError || !newProfile) {
+          console.error('Failed to create user profile:', createError);
+          return;
+        }
+
+        setUser(newProfile);
+        setAuthProvider(provider);
+        localStorage.setItem('user', JSON.stringify(newProfile));
+        localStorage.setItem('userId', newProfile.id);
+        localStorage.setItem('authProvider', provider);
+        return;
+      }
+
       console.error('Failed to load user profile:', error);
       return;
     }
 
     setUser(data);
+    setAuthProvider(provider);
     localStorage.setItem('user', JSON.stringify(data));
     localStorage.setItem('userId', data.id);
+    localStorage.setItem('authProvider', provider);
   };
 
   const login = async (username: string, password: string) => {
@@ -179,7 +220,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <UserContext.Provider value={{ user, isLoading, login, signup, logout, updateFavorites }}>
+    <UserContext.Provider value={{ user, isLoading, authProvider, login, signup, logout, updateFavorites }}>
       {children}
     </UserContext.Provider>
   );

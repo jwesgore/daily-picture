@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/UserContext';
 import { useSupabaseData } from '../hooks/queries/useSupabaseData';
 import { loadTeamDataById, getPlayerPhotoThumb } from '../utils/teamData';
@@ -8,7 +9,8 @@ import TeamPickerModal from '../components/modals/TeamPickerModal';
 import './styles/Profile.css';
 
 export default function Profile() {
-  const { user, logout, updateFavorites, isLoading: authLoading } = useAuth();
+  const navigate = useNavigate();
+  const { user, logout, updateFavorites, isLoading: authLoading, authProvider } = useAuth();
   const { data } = useSupabaseData();
   const [selectedTeam, setSelectedTeam] = useState<number | null>(null);
   const [selectedPlayer, setSelectedPlayer] = useState<number | null>(null);
@@ -32,7 +34,7 @@ export default function Profile() {
   }
 
   if (!user) {
-    return <Auth onSuccess={() => {}} />;
+    return <Auth onSuccess={() => navigate('/profile', { replace: true })} />;
   }
 
   const handleUpdateTeam = async (teamId: number | null) => {
@@ -86,6 +88,7 @@ export default function Profile() {
           <div>
             <h1>My Profile</h1>
             <p className="username">Username: <strong>{user.username}</strong></p>
+            <p className="auth-method">Signed in with: <strong>{authProvider === 'google' ? 'Google' : 'Email'}</strong></p>
           </div>
         </div>
 
