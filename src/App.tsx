@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { UserProvider } from './context/UserContext'
 import NavBar from './components/nav/NavBar'
 import Home from './pages/Home'
@@ -27,6 +28,7 @@ function App() {
           <Route path="/auth/callback" element={<AuthCallback />} />
         </Routes>
       </Router>
+      <ReactQueryDevtools initialIsOpen={false} />
     </UserProvider>
   )
 }
