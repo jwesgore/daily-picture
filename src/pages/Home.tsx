@@ -10,18 +10,37 @@ export default function Home() {
   const today = new Date().toISOString().slice(0, 10);
   const { data, isLoading, error } = useMatchesByDate(today);
   const [championImageSrc, setChampionImageSrc] = useState<string | null>(null);
+  const [compactBracket, setCompactBracket] = useState(true);
 
   const players = data?.players ?? {};
   const teams = data?.teams ?? {};
   const matches = data?.matches ?? [];
 
-  const sortedMatches = useMemo(() => {
+  const { bracket, championId, champion } = useMemo(() => {
     const byRank = (rank?: string) => RANK_ORDER[rank ?? ""] ?? 99;
-    return [...matches].sort((a, b) => {
+    const sorted = [...matches].sort((a, b) => {
       const rankDiff = byRank(a.rank) - byRank(b.rank);
       return rankDiff !== 0 ? rankDiff : (a.rank_index ?? 0) - (b.rank_index ?? 0);
     });
-  }, [matches]);
+
+    const by: Record<string, Match[]> = {};
+    for (const match of sorted) {
+      if (!by[match.rank]) by[match.rank] = [];
+      by[match.rank].push(match);
+    }
+    const ranks = Object.keys(by).sort(
+      (a, b) => (RANK_ORDER[a] ?? 99) - (RANK_ORDER[b] ?? 99)
+    );
+
+    const champId = sorted.find((m) => m.rank === "final")?.winner;
+    const champ = champId ? players[champId] : undefined;
+
+    return {
+      bracket: { by, ranks },
+      championId: champId,
+      champion: champ
+    };
+  }, [matches, players]);
 
   const playerLabel = (id?: number | null) => {
     if (!id) return "Bye";
@@ -31,23 +50,6 @@ export default function Home() {
     return team ? `${player.name} (${team.name})` : player.name;
   };
 
-  const championId = sortedMatches.find((m) => m.rank === "final")?.winner;
-  const champion = championId ? players[championId] : undefined;
-
-  // UI: allow users to reduce bracket clutter by showing only semi + final
-  const [compactBracket, setCompactBracket] = useState(true);
-
-  const bracket = useMemo(() => {
-    const by: Record<string, Match[]> = {};
-    for (const match of sortedMatches) {
-      if (!by[match.rank]) by[match.rank] = [];
-      by[match.rank].push(match);
-    }
-    const ranks = Object.keys(by).sort(
-      (a, b) => (RANK_ORDER[a] ?? 99) - (RANK_ORDER[b] ?? 99)
-    );
-    return { by, ranks };
-  }, [sortedMatches]);
   useEffect(() => {
     if (!championId) {
       setChampionImageSrc(null);

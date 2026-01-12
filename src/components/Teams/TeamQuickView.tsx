@@ -1,18 +1,18 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, memo } from "react";
 import { useSupabaseData } from "../../hooks/queries/useSupabaseData";
 import { calculateTeamStats } from "../../services/statisticsService";
-import type { TeamData, TeamMemberData } from "../../types";
+import type { TeamData, TeamStats } from "../../types";
 import "./TeamQuickView.css";
 
 interface TeamQuickViewProps {
   teamData: string;
   teamId: number;
+  preloadedStats?: TeamStats;
 }
 
-export default function TeamQuickView({ teamData, teamId }: TeamQuickViewProps) {
+function TeamQuickView({ teamData, teamId, preloadedStats }: TeamQuickViewProps) {
   const [team, setTeam] = useState<TeamData | null>(null);
-  const [members, setMembers] = useState<Array<TeamMemberData & { id: string }>>([]);
   const { data } = useSupabaseData();
 
   useEffect(() => {
@@ -25,17 +25,20 @@ export default function TeamQuickView({ teamData, teamId }: TeamQuickViewProps) 
       .catch(console.error);
   }, [teamData]);
 
-  useEffect(() => {
-    if (!team) return;
-    const flattened = Object.entries(team.teamMembers || {}).map(([id, m]) => ({
+  const members = useMemo(() => {
+    if (!team) return [];
+    return Object.entries(team.teamMembers || {}).map(([id, m]) => ({
       id,
       ...m,
     }));
-    setMembers(flattened);
   }, [team]);
 
-  const teamStats = data ? calculateTeamStats(data.teams, data.players, data.matches) : [];
-  const currentStats = teamStats.find(t => t.id === teamId);
+  const currentStats = useMemo(() => {
+    if (preloadedStats) return preloadedStats;
+    if (!data) return null;
+    const teamStats = calculateTeamStats(data.teams, data.players, data.matches);
+    return teamStats.find(t => t.id === teamId);
+  }, [data, teamId, preloadedStats]);
 
   if (!team) return null;
 
@@ -82,3 +85,5 @@ export default function TeamQuickView({ teamData, teamId }: TeamQuickViewProps) 
     </div>
   );
 }
+
+export default memo(TeamQuickView);

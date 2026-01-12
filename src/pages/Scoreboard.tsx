@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSupabaseData } from "../hooks/queries/useSupabaseData";
 import { loadTeamDataById, getPlayerPhotoThumb } from "../utils/teamData";
@@ -6,28 +6,84 @@ import { calculatePlayerStats, calculateTeamStats, getTopPlayers, getTopTeams } 
 import { formatTeamName, getRankDisplay } from "../utils/formatters";
 import "./styles/Scoreboard.css";
 
+const CACHE_KEY = 'scoreboard_stats';
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+interface CachedStats {
+  playerStats: any[];
+  teamStats: any[];
+  timestamp: number;
+  matchCount: number;
+}
+
 export default function Scoreboard() {
-  // Data fetching
   const { data, isLoading, error } = useSupabaseData();
   
-  // UI state
   const [viewMode, setViewMode] = useState<"players" | "teams">("players");
   const [expandPlayers, setExpandPlayers] = useState(false);
   const [expandTeams, setExpandTeams] = useState(false);
 
-  // Extract data from response
   const players = data?.players ?? {};
   const teams = data?.teams ?? {};
   const matches = data?.matches ?? [];
 
-  // Calculate full rankings
   const playerStats = useMemo(() => {
+    if (matches.length === 0) return [];
+    
+    try {
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const parsed: CachedStats = JSON.parse(cached);
+        const isExpired = Date.now() - parsed.timestamp > CACHE_DURATION;
+        const matchCountChanged = parsed.matchCount !== matches.length;
+        
+        if (!isExpired && !matchCountChanged) {
+          return parsed.playerStats;
+        }
+      }
+    } catch (e) {
+      console.error('Cache read error:', e);
+    }
+    
     return calculatePlayerStats(players, teams, matches);
   }, [matches, players, teams]);
 
   const teamStats = useMemo(() => {
+    if (matches.length === 0) return [];
+    
+    try {
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const parsed: CachedStats = JSON.parse(cached);
+        const isExpired = Date.now() - parsed.timestamp > CACHE_DURATION;
+        const matchCountChanged = parsed.matchCount !== matches.length;
+        
+        if (!isExpired && !matchCountChanged) {
+          return parsed.teamStats;
+        }
+      }
+    } catch (e) {
+      console.error('Cache read error:', e);
+    }
+    
     return calculateTeamStats(teams, players, matches);
   }, [matches, players, teams]);
+
+  useEffect(() => {
+    if (playerStats.length > 0 && teamStats.length > 0) {
+      try {
+        const cache: CachedStats = {
+          playerStats,
+          teamStats,
+          timestamp: Date.now(),
+          matchCount: matches.length
+        };
+        localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
+      } catch (e) {
+        console.error('Cache write error:', e);
+      }
+    }
+  }, [playerStats, teamStats, matches.length]);
 
   // Get top 3 for highlights section
   const topPlayers = useMemo(() => {

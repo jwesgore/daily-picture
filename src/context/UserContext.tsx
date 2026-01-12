@@ -24,6 +24,8 @@ interface UserContextType {
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
+const SESSION_CHECK_INTERVAL = 5 * 60 * 1000; // 5 minutes
+
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(() => {
     const cached = localStorage.getItem('user');
@@ -33,10 +35,19 @@ export function UserProvider({ children }: { children: ReactNode }) {
     return localStorage.getItem('authProvider');
   });
   const [isLoading, setIsLoading] = useState(true);
+  const [lastSessionCheck, setLastSessionCheck] = useState<number>(0);
 
   useEffect(() => {
     const initAuth = async () => {
       try {
+        const now = Date.now();
+        const shouldCheck = now - lastSessionCheck > SESSION_CHECK_INTERVAL;
+        
+        if (!shouldCheck && user) {
+          setIsLoading(false);
+          return;
+        }
+
         const {
           data: { session },
           error,
@@ -50,6 +61,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
         if (sessionUserId) {
           await loadUserProfile(sessionUserId);
         }
+        
+        setLastSessionCheck(now);
       } catch (e) {
         console.error('Failed to initialize auth:', e);
       } finally {
@@ -61,6 +74,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
       const nextUserId = nextSession?.user?.id;
       if (nextUserId) {
         loadUserProfile(nextUserId);
+        setLastSessionCheck(Date.now());
       } else {
         clearCachedUser();
       }
