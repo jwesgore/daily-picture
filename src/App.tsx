@@ -18,9 +18,9 @@ function App() {
         <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/teams" element={<Teams />} />
           <Route path="/player/:playerId" element={<PlayerPage />} />
-          <Route path="/teams/:teamName" element={<TeamPage />} />
+          <Route path="/teams/:teamId" element={<TeamPage />} />
+          <Route path="/teams" element={<Teams />} />
           <Route path="/scoreboard" element={<Scoreboard />} />
           <Route path="/about" element={<About />} />
           <Route path="/profile" element={<Profile />} />

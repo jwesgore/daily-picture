@@ -54,7 +54,7 @@ export default function TeamQuickView({ teamData }: TeamQuickViewProps) {
         backgroundImage: `url(${team.background})`,
       }}
     >
-      <Link to={`/teams/${team.teamName}`} className="overlay-link">
+      <Link to={`/teams/${team.teamId}`} className="overlay-link">
         <div className="overlay">
           <div className="showcase-overlay">
             <h2 className="showcase-text">Team {team.teamName.charAt(0).toUpperCase() + team.teamName.slice(1)}</h2>

@@ -1,13 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "../../supabaseClient";
-import { loadTeamDataByName } from "../../utils/teamData";
+import { loadTeamDataById } from "../../utils/teamData";
+import { formatTeamName } from "../../utils/formatters";
 import { RANK_POINTS } from "../../constants";
 import type { Player, Match, TeamData, PlayerWithStats, TeamStats } from "../../types";
 import "./TeamPage.css";
 
 export default function TeamPage() {
-  const { teamName } = useParams<{ teamName: string }>();
+  const { teamId } = useParams<{ teamId: string }>();
+  const teamIdNum = teamId ? Number(teamId) : null;
   const [teamData, setTeamData] = useState<TeamData | null>(null);
   const [players, setPlayers] = useState<Record<number, Player>>({});
   const [matches, setMatches] = useState<Match[]>([]);
@@ -20,7 +22,8 @@ export default function TeamPage() {
       setError(null);
 
       try {
-        const data = loadTeamDataByName(teamName || "");
+        if (!teamIdNum) throw new Error("Team ID not provided");
+        const data = loadTeamDataById(teamIdNum);
         if (!data) throw new Error("Team not found");
         setTeamData(data);
 
@@ -47,8 +50,8 @@ export default function TeamPage() {
       }
     };
 
-    if (teamName) load();
-  }, [teamName]);
+    if (teamIdNum) load();
+  }, [teamIdNum]);
 
   const teamPlayers = useMemo((): PlayerWithStats[] => {
     if (!teamData) return [];
@@ -199,43 +202,33 @@ export default function TeamPage() {
       >
         <div className="team-detail__header-overlay">
           <h1 className="team-detail__title">
-            Team {teamData.teamName.charAt(0).toUpperCase() + teamData.teamName.slice(1)}
+            Team {formatTeamName(teamData.teamName)}
           </h1>
           <p className="team-detail__bio">{teamData.bio}</p>
+          <div className="team-detail__chips">
+            <div className="chip">
+              <span className="chip__label">Record</span>
+              <span className="chip__value">
+                {currentTeamStats ? (
+                  <>
+                    {currentTeamStats.wins}-{currentTeamStats.losses}
+                  </>
+                ) : (
+                  "—"
+                )}
+              </span>
+            </div>
+            <div className="chip">
+              <span className="chip__label">Rank</span>
+              <span className="chip__value">{currentRank ?? "—"}</span>
+            </div>
+            <div className="chip">
+              <span className="chip__label">MVP</span>
+              <span className="chip__value">{currentMVP ? currentMVP.name : "—"}</span>
+            </div>
+          </div>
         </div>
       </header>
-
-      <section className="team-detail__stats">
-        <h2 className="team-detail__section-title">Team Stats</h2>
-        <div className="team-detail__stats-grid">
-          <div className="team-detail__stat-card">
-            <div className="team-detail__stat-label">Overall Record</div>
-            <div className="team-detail__stat-value">
-              {currentTeamStats ? (
-                <>
-                  {currentTeamStats.wins} - {currentTeamStats.losses}
-                </>
-              ) : (
-                "—"
-              )}
-            </div>
-          </div>
-          <div className="team-detail__stat-card">
-            <div className="team-detail__stat-label">Current Rank</div>
-            <div className="team-detail__stat-value">{currentRank ?? "—"}</div>
-          </div>
-          <div className="team-detail__stat-card">
-            <div className="team-detail__stat-label">Current MVP</div>
-            <div className="team-detail__stat-value">
-              {currentMVP ? (
-                <span>{currentMVP.name}</span>
-              ) : (
-                "—"
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
 
       <section className="team-detail__players">
         <h2 className="team-detail__section-title">Players</h2>

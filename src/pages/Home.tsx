@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { useMatchesByDate } from "../hooks/queries/useSupabaseData";
-import { loadTeamDataById, getPlayerPhoto } from "../utils/teamData";
+import { loadTeamDataById, getPlayerPhoto, getPlayerPhotoThumb } from "../utils/teamData";
+import { formatTeamName } from "../utils/formatters";
 import { RANK_LABELS, RANK_ORDER } from "../constants";
 import type { Match } from "../types";
 
@@ -32,6 +34,9 @@ export default function Home() {
   const championId = sortedMatches.find((m) => m.rank === "final")?.winner;
   const champion = championId ? players[championId] : undefined;
 
+  // UI: allow users to reduce bracket clutter by showing only semi + final
+  const [compactBracket, setCompactBracket] = useState(true);
+
   const bracket = useMemo(() => {
     const by: Record<string, Match[]> = {};
     for (const match of sortedMatches) {
@@ -43,7 +48,6 @@ export default function Home() {
     );
     return { by, ranks };
   }, [sortedMatches]);
-
   useEffect(() => {
     if (!championId) {
       setChampionImageSrc(null);
@@ -62,7 +66,7 @@ export default function Home() {
   }, [championId, players]);
 
   return (
-    <main className="home">
+    <main className="home home--compact">
 
       {isLoading && <p className="home__status">Loading today&apos;s bracket…</p>}
       {error && <p className="home__status home__status--error">{error.toString()}</p>}
@@ -72,30 +76,53 @@ export default function Home() {
 
       {!isLoading && !error && matches.length > 0 && (
         <>
-          <header className="home__header">
-            <h1>Today&apos;s Winner</h1>
-            <p>{today}</p>
-          </header>
-          <p className="home__subnote">New Winner Picked Every Day 12 AM UTC</p>
+          <section className="home-hero">
+            <div className="home-hero__content">
+              <div className="home-hero__image">
+                {championImageSrc && (
+                  <img
+                    src={championImageSrc}
+                    alt={champion ? `${champion.name}` : "Champion"}
+                  />
+                )}
+              </div>
+              <div className="home-hero__info">
+                <div className="home-hero__kicker">Today&apos;s Winner</div>
+                <h1 className="home-hero__title">{champion?.name}</h1>
+                {champion && teams[champion.team_id]?.name && (
+                  <div className="home-hero__team">
+                    Team {formatTeamName(teams[champion.team_id].name)}
+                  </div>
+                )}
+                <div className="home-hero__date">{today}</div>
+                <div className="home-hero__cta">
+                  <Link to={champion ? `/player/${champion.id}` : "/"} className="home-hero__btn">View Player</Link>
+                  <a href={`/teams/${champion?.team_id}`} className="home-hero__btn home-hero__btn--secondary">View Team</a>
+                </div>
+              </div>
+            </div>
+            <div className="home-hero__subnote">New winner picked daily at 12 AM UTC</div>
+          </section>
 
-          {champion && (
-            <section className="home__champion">
-              <h2 className="home__champion-name">{champion.name}</h2>
-              {teams[champion.team_id]?.name && (
-                <div className="home__champion-team">Team {teams[champion.team_id].name.charAt(0).toUpperCase() + teams[champion.team_id].name.slice(1)}</div>
-              )}
-              {championImageSrc && (
-                <img
-                  src={championImageSrc}
-                  alt={`${champion.name} from ${teams[champion.team_id]?.name ?? "unknown team"}`}
-                  className="home__champion-image"
-                />
-              )}
-            </section>
-          )}
+          <div className="bracket-header">
+            <h2>Today&apos;s Bracket</h2>
+            <div className="bracket-toggle">
+              <button
+                className={`bracket-toggle__btn ${compactBracket ? "active" : ""}`}
+                onClick={() => setCompactBracket(true)}
+              >Compact</button>
+              <button
+                className={`bracket-toggle__btn ${!compactBracket ? "active" : ""}`}
+                onClick={() => setCompactBracket(false)}
+              >Full</button>
+            </div>
+          </div>
 
           <div className="bracket">
-            {bracket.ranks.map((rank) => (
+            {(compactBracket
+              ? bracket.ranks.filter((r) => r === "semi" || r === "final")
+              : bracket.ranks
+            ).map((rank) => (
               <div className="bracket__column" key={rank}>
                 <div className="bracket__column-title">{RANK_LABELS[rank] ?? rank}</div>
                 {bracket.by[rank]?.map((match) => (
@@ -112,7 +139,16 @@ export default function Home() {
                         match.winner === match.player_a ? "winner" : ""
                       }`}
                     >
-                      <span>{playerLabel(match.player_a)}</span>
+                      <div className="match-card__player">
+                        {match.player_a && (
+                          <img
+                            src={getPlayerPhotoThumb(loadTeamDataById(players[match.player_a]?.team_id), match.player_a) || ""}
+                            alt={playerLabel(match.player_a)}
+                            className="match-card__thumbnail"
+                          />
+                        )}
+                        <span>{playerLabel(match.player_a)}</span>
+                      </div>
                       {match.winner === match.player_a && <span className="pill">Win</span>}
                     </div>
 
@@ -125,7 +161,16 @@ export default function Home() {
                           : ""
                       }`}
                     >
-                      <span>{playerLabel(match.player_b)}</span>
+                      <div className="match-card__player">
+                        {match.player_b && (
+                          <img
+                            src={getPlayerPhotoThumb(loadTeamDataById(players[match.player_b]?.team_id), match.player_b) || ""}
+                            alt={playerLabel(match.player_b)}
+                            className="match-card__thumbnail"
+                          />
+                        )}
+                        <span>{playerLabel(match.player_b)}</span>
+                      </div>
                       {match.player_b && match.winner === match.player_b && (
                         <span className="pill">Win</span>
                       )}

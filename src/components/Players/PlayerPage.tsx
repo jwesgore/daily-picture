@@ -66,7 +66,7 @@ export default function PlayerPage() {
     <div className="player-page">
       <header className="player-header">
         {team && (
-          <Link to={`/teams/${team.name}`} className="player-team-link">
+          <Link to={`/teams/${team.id}`} className="player-team-link">
             ← Team {team.name.charAt(0).toUpperCase() + team.name.slice(1)}
           </Link>
         )}
