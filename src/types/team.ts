@@ -1,6 +1,3 @@
-/**
- * Team data types from JSON files
- */
 export type TeamMemberData = {
   photo: string;
   photoThumb: string;

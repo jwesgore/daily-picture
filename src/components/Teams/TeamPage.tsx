@@ -27,7 +27,6 @@ export default function TeamPage() {
         if (!data) throw new Error("Team not found");
         setTeamData(data);
 
-        // Fetch all players
         const { data: playersData, error: playersError } = await supabase
           .from("players")
           .select("id,name,team_id,species,bio");
@@ -35,7 +34,6 @@ export default function TeamPage() {
         if (playersError) throw playersError;
         setPlayers(Object.fromEntries((playersData || []).map((p: Player) => [p.id, p])));
 
-        // Fetch all matches
         const { data: matchesData, error: matchesError } = await supabase
           .from("matches")
           .select("*");
@@ -59,7 +57,6 @@ export default function TeamPage() {
     const playerStats: Record<number, PlayerWithStats> = {};
     const teamMembersKeys = Object.keys(teamData.teamMembers || {});
 
-    // Get all players that have data in this team's JSON (by player ID)
     teamMembersKeys.forEach((playerId) => {
       const id = parseInt(playerId);
       const player = players[id];
@@ -76,7 +73,6 @@ export default function TeamPage() {
       }
     });
 
-    // Calculate stats from matches
     matches.forEach((match) => {
       const winnerId = match.winner;
       const loserId = match.player_a === winnerId ? match.player_b : match.player_a;
@@ -142,7 +138,6 @@ export default function TeamPage() {
     return idx >= 0 ? idx + 1 : null;
   }, [teamStatsSorted, teamData]);
 
-  // Compute current MVP for this team by score (tie-breaker wins)
   const currentMVP = useMemo((): { id: number; name: string; score: number; wins: number } | null => {
     if (!teamData) return null;
     const memberIds = Object.keys(teamData.teamMembers || {}).map((k) => parseInt(k));

@@ -1,9 +1,6 @@
 import type { Player, Team, Match, PlayerStats, TeamStats } from '../types';
 import { RANK_POINTS } from '../constants';
 
-/**
- * Calculate player statistics from matches
- */
 export function calculatePlayerStats(
   players: Record<number, Player>,
   teams: Record<number, Team>,
@@ -23,7 +20,6 @@ export function calculatePlayerStats(
     };
   });
 
-  // Calculate wins, losses, and scores from matches
   matches.forEach((match) => {
     const winnerId = match.winner;
     const loserId = match.player_a === winnerId ? match.player_b : match.player_a;
@@ -41,9 +37,6 @@ export function calculatePlayerStats(
   return Object.values(stats).sort((a, b) => b.score - a.score || b.wins - a.wins);
 }
 
-/**
- * Calculate team statistics from matches
- */
 export function calculateTeamStats(
   teams: Record<number, Team>,
   players: Record<number, Player>,
@@ -62,7 +55,6 @@ export function calculateTeamStats(
     };
   });
 
-  // Calculate team wins, losses, and scores from matches
   matches.forEach((match) => {
     const winnerId = match.winner;
     const loserId = match.player_a === winnerId ? match.player_b : match.player_a;
@@ -86,23 +78,14 @@ export function calculateTeamStats(
   return Object.values(stats).sort((a, b) => b.score - a.score || b.wins - a.wins);
 }
 
-/**
- * Get top N players by score
- */
 export function getTopPlayers(playerStats: PlayerStats[], limit: number = 3): PlayerStats[] {
   return playerStats.slice(0, limit);
 }
 
-/**
- * Get top N teams by score
- */
 export function getTopTeams(teamStats: TeamStats[], limit: number = 3): TeamStats[] {
   return teamStats.slice(0, limit);
 }
 
-/**
- * Calculate win rate percentage for a player
- */
 export function calculateWinRate(wins: number, losses: number): number {
   const total = wins + losses;
   return total === 0 ? 0 : Math.round((wins / total) * 100);

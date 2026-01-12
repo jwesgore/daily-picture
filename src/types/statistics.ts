@@ -1,6 +1,3 @@
-/**
- * Statistics and aggregated data types
- */
 export type PlayerStats = {
   id: number;
   name: string;

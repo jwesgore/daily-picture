@@ -34,7 +34,6 @@ export default function TeamQuickView({ teamData, teamId }: TeamQuickViewProps) 
     setMembers(flattened);
   }, [team]);
 
-  // Calculate team stats
   const teamStats = data ? calculateTeamStats(data.teams, data.players, data.matches) : [];
   const currentStats = teamStats.find(t => t.id === teamId);
 

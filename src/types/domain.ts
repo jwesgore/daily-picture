@@ -1,6 +1,3 @@
-/**
- * Database types for core domain models
- */
 export type Player = {
   id: number;
   name: string;
