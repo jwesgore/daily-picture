@@ -94,6 +94,10 @@ export default function PlayerPage() {
         </section>
 
         <section className="player-stats-section">
+          <div className="player-info">
+            <blockquote className="player-bio">"{player.bio}"</blockquote>
+          </div>
+
           <h2>Player Statistics</h2>
           <div className="player-stats-grid">
             <div className="stat-card">
@@ -112,11 +116,6 @@ export default function PlayerPage() {
               <div className="stat-label">Win Rate</div>
               <div className="stat-value">{winRate}%</div>
             </div>
-          </div>
-
-          <div className="player-info">
-            <h3>About</h3>
-            <p>{player.bio}</p>
           </div>
         </section>
       </div>

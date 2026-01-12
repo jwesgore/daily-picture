@@ -117,9 +117,21 @@
 
 .player-info {
   background-color: #f8f9fa;
-  padding: 1.5rem;
+  padding: 0;
   border-radius: 12px;
   border-left: 4px solid #667eea;
+  margin-bottom: 2rem;
+}
+
+.player-bio {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: #444;
+  font-style: italic;
+  margin: 0;
+  padding: 1.5rem 2rem;
+  text-align: center;
+  white-space: pre-wrap;
 }
 
 .player-info h3 {
